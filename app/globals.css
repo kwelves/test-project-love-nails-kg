@@ -129,18 +129,24 @@ body {
 
 .brand-home-glow {
   position: relative;
+  -webkit-text-stroke: 0 transparent;
   text-shadow: none;
   transition:
     color 260ms var(--ease-ui),
+    -webkit-text-stroke-color 260ms var(--ease-ui),
     text-shadow 300ms var(--ease-ui),
     transform 180ms var(--ease-ui);
 }
 
 .brand-home-glow-active {
+  -webkit-text-stroke: 0.35px rgb(142 31 63 / 0.42);
   text-shadow:
-    0 0 10px rgb(243 201 213 / 0.78),
-    0 0 20px rgb(142 31 63 / 0.28),
-    0 0 34px rgb(201 47 69 / 0.12);
+    0 1px 0 rgb(255 253 249 / 0.92),
+    0 -1px 0 rgb(255 253 249 / 0.72),
+    1px 0 0 rgb(255 253 249 / 0.78),
+    -1px 0 0 rgb(255 253 249 / 0.78),
+    0 0 8px rgb(243 201 213 / 0.86),
+    0 0 16px rgb(142 31 63 / 0.24);
   animation: brand-glow-in 360ms var(--ease-ui) both;
 }
 
