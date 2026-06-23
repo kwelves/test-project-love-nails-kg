@@ -1,0 +1,58 @@
+import type { Branch } from "@/lib/domain/types";
+
+export const branches: Branch[] = [
+  {
+    id: "suerkulova",
+    name: "3 мкр / Орто-Сай / Суеркулова",
+    shortName: "Суеркулова",
+    district: "3 мкр, Орто-Сай",
+    address: "ул. Суеркулова, 28/2",
+    floorRoom: "3 этаж, кабинеты 305-306",
+    orientation: "Удобно для южной части города и района Орто-Сай.",
+    mapLinks: {
+      yandex: "https://yandex.com/maps/?text=Суеркулова%2028%2F2%20Бишкек",
+      "2gis": "https://2gis.kg/bishkek/search/Суеркулова%2028%2F2",
+    },
+    mapEmbeds: {},
+    fallbackMapLink: "https://2gis.kg/bishkek/search/Суеркулова%2028%2F2",
+    isVisible: true,
+    bookingEnabled: true,
+    sortOrder: 1,
+  },
+  {
+    id: "beta-stores",
+    name: "Исанова / Чуй / Beta Stores 1",
+    shortName: "Beta Stores",
+    district: "Исанова / Чуй",
+    address: "проспект Чуй, 150А, ТЦ Beta Stores 1",
+    floorRoom: "3 этаж, 308 бутик",
+    orientation: "Центральный филиал для записи после дел, учебы или работы.",
+    mapLinks: {
+      yandex: "https://yandex.com/maps/?text=Чуй%20150А%20Beta%20Stores%20Бишкек",
+      "2gis": "https://2gis.kg/bishkek/search/Чуй%20150А%20Beta%20Stores",
+    },
+    mapEmbeds: {},
+    fallbackMapLink: "https://2gis.kg/bishkek/search/Чуй%20150А%20Beta%20Stores",
+    isVisible: true,
+    bookingEnabled: true,
+    sortOrder: 2,
+  },
+  {
+    id: "vostok",
+    name: "Восток-5",
+    shortName: "Восток-5",
+    district: "Восток-5",
+    address: "проспект Чуй, 115А",
+    floorRoom: "1 этаж",
+    orientation: "Филиал для восточной части города и быстрых записей рядом.",
+    mapLinks: {
+      yandex: "https://yandex.com/maps/?text=Чуй%20115А%20Бишкек",
+      "2gis": "https://2gis.kg/bishkek/search/Чуй%20115А",
+    },
+    mapEmbeds: {},
+    fallbackMapLink: "https://2gis.kg/bishkek/search/Чуй%20115А",
+    isVisible: true,
+    bookingEnabled: true,
+    sortOrder: 3,
+  },
+];
