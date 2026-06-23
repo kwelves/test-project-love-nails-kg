@@ -127,6 +127,15 @@ body {
   transform: scale(0.98);
 }
 
+.hero-soft-divider {
+  height: 1.85rem;
+  border-top: 1px solid rgb(142 31 63 / 0.055);
+  border-bottom: 1px solid rgb(255 255 255 / 0.72);
+  background:
+    radial-gradient(120% 160% at 50% 0%, rgb(201 47 69 / 0.045), transparent 62%),
+    linear-gradient(180deg, rgb(255 248 243 / 0), rgb(255 253 249 / 0.82) 54%, rgb(255 248 243 / 0));
+}
+
 .brand-home-glow {
   position: relative;
   -webkit-text-stroke: 0 transparent;

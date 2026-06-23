@@ -14,7 +14,6 @@ import { ServiceCard } from "@/components/salon/service-card";
 import { TestimonialCard } from "@/components/salon/testimonial-card";
 import { Footer } from "@/components/site/footer";
 import { Header } from "@/components/site/header";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { branches } from "@/lib/data/branches";
 import { galleryItems } from "@/lib/data/gallery";
@@ -113,68 +112,80 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Header />
       <main>
-        <section className="relative overflow-hidden pb-7 pt-5 sm:py-16 lg:py-20">
+        <section className="relative overflow-hidden pb-8 pt-5 sm:pb-14 sm:pt-10 lg:pb-20 lg:pt-16">
           <Container>
-            <div className="grid items-center gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8">
-              <AnimatedReveal>
-                <div>
-                  <Badge variant="secondary">{salon.positioning}</Badge>
-                  <h1 className="mt-3 max-w-4xl text-[2.08rem] font-semibold leading-[1.04] tracking-tight min-[390px]:text-[2.35rem] sm:mt-5 sm:text-6xl lg:text-7xl">
-                    Love Nails - nail-студии в Бишкеке с 2016 года
-                  </h1>
-                  <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">
-                    Маникюр, педикюр, покрытие, дизайн и наращивание в удобных филиалах. Выберите филиал,
-                    услугу и мастера - администратор подтвердит запись.
-                  </p>
-                  <div className="mt-5 hidden flex-col gap-3 sm:mt-8 sm:flex sm:flex-row">
-                    <Button asChild size="lg" className="w-full sm:w-auto">
-                      <Link href="#booking">
-                        Записаться
-                        <ArrowRight className="size-4" aria-hidden="true" />
-                      </Link>
-                    </Button>
-                    <ContactButton
-                      channel="whatsapp"
-                      label="Написать в WhatsApp"
-                      variant="secondary"
-                      size="lg"
-                      className="w-full sm:w-auto"
-                      payload={{ placement: "hero" }}
-                    />
-                  </div>
-                  <div className="mt-4 flex flex-col gap-3 sm:hidden">
-                    <Button asChild size="lg" variant="secondary" className="w-full">
-                      <Link href="#services">
-                        Посмотреть услуги
-                        <ArrowRight className="size-4" aria-hidden="true" />
-                      </Link>
-                    </Button>
-                  </div>
-                  <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-8 sm:grid-cols-4 sm:gap-3">
-                    {facts.map((fact) => (
-                      <div key={fact} className="rounded-2xl border border-border bg-card px-3 py-2.5 sm:px-4 sm:py-3">
-                        <p className="font-mono text-[11px] font-semibold text-primary min-[390px]:text-xs sm:text-sm">{fact}</p>
+            <div className="overflow-hidden rounded-[1.75rem] border border-border bg-[#fff8f3]/85 shadow-soft">
+              <div className="grid gap-6 px-4 py-6 sm:px-6 sm:py-8 lg:grid-cols-[1.14fr_0.86fr] lg:gap-12 lg:px-9 lg:py-10">
+                <AnimatedReveal>
+                  <div className="flex h-full flex-col justify-between gap-5">
+                    <div className="flex items-center gap-3">
+                      <div className="relative size-12 shrink-0 overflow-hidden rounded-full bg-background shadow-[0_10px_24px_rgb(142_31_63_/_0.08)] ring-1 ring-border/70 sm:size-14">
+                        <Image
+                          src="/brand/love-nails-logo.png"
+                          alt="Love Nails"
+                          fill
+                          priority
+                          sizes="56px"
+                          className="object-cover"
+                        />
                       </div>
-                    ))}
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">Love Nails Бишкек</p>
+                        <p className="text-xs text-muted-foreground">{salon.positioning}</p>
+                      </div>
+                    </div>
+                    <h1 className="max-w-4xl text-[2.35rem] font-semibold leading-[1.03] tracking-tight text-foreground min-[390px]:text-[2.75rem] sm:text-6xl lg:text-7xl">
+                      Маникюр и педикюр в Бишкеке с аккуратным, чистым результатом
+                    </h1>
                   </div>
-                </div>
-              </AnimatedReveal>
-              <AnimatedReveal delay={120}>
-                <div className="soft-float-slow grid grid-cols-[0.82fr_1.18fr] gap-2.5 sm:gap-4">
-                  <div className="flex flex-col gap-2.5 sm:gap-4">
-                    <HeroMiniCard title="Fix price" text="от 850 сом" />
-                    <HeroMiniCard title="Direct / WhatsApp" text="9:00-21:00" dark />
+                </AnimatedReveal>
+                <AnimatedReveal delay={90}>
+                  <div className="flex h-full flex-col justify-end gap-5 lg:pb-1">
+                    <p className="max-w-md text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
+                      Love Nails помогает быстро выбрать услугу, филиал и удобное время. Администратор
+                      подтвердит запись и итоговую стоимость.
+                    </p>
+                    <div className="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
+                      <Button asChild size="lg" className="w-full sm:w-auto">
+                        <Link href="#booking">
+                          Записаться
+                          <ArrowRight className="size-4" aria-hidden="true" />
+                        </Link>
+                      </Button>
+                      <Button asChild size="lg" variant="secondary" className="w-full sm:w-auto">
+                        <Link href="#gallery">
+                          Смотреть работы
+                          <ArrowRight className="size-4" aria-hidden="true" />
+                        </Link>
+                      </Button>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {facts.map((fact) => (
+                        <span
+                          key={fact}
+                          className="rounded-full border border-border/80 bg-background/60 px-3 py-1.5 text-[11px] font-semibold text-primary shadow-[0_8px_20px_rgb(35_33_36_/_0.04)] min-[390px]:text-xs"
+                        >
+                          {fact}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <div className="rounded-[1.35rem] border border-border bg-card p-1.5 shadow-soft sm:rounded-[2rem] sm:p-3">
-                    <div className="relative min-h-[218px] overflow-hidden rounded-[1rem] bg-[#f4e6dd] min-[390px]:min-h-[244px] sm:min-h-[420px] sm:rounded-[1.5rem]">
-                      <Image
-                        src="/visuals/berry.svg"
-                        alt="Berry nail placeholder"
-                        fill
-                        priority
-                        sizes="(max-width: 1024px) 100vw, 50vw"
-                        className="object-cover"
-                      />
+                </AnimatedReveal>
+              </div>
+              <div className="hero-soft-divider" aria-hidden="true" />
+              <AnimatedReveal delay={150}>
+                <div className="px-2 pb-2 sm:px-3 sm:pb-3 lg:px-4 lg:pb-4">
+                  <div className="group relative aspect-[1.08/1] overflow-hidden rounded-[1.35rem] border border-border/80 bg-[#f4e6dd] shadow-[0_18px_55px_rgb(35_33_36_/_0.1)] min-[430px]:aspect-[4/3] sm:aspect-[16/9] sm:rounded-[1.65rem]">
+                    <Image
+                      src="/hero/for-hero-section-large.jpeg"
+                      alt="Френч с объемным цветочным дизайном Love Nails"
+                      fill
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 1120px"
+                      className="object-cover object-center transition-transform duration-700 ease-[var(--ease-ui)] group-hover:scale-[1.025]"
+                    />
+                    <div className="absolute bottom-3 left-3 rounded-full border border-white/65 bg-background/82 px-3 py-1.5 text-xs font-semibold text-foreground shadow-soft backdrop-blur sm:bottom-5 sm:left-5 sm:text-sm">
+                      Френч · объемный дизайн
                     </div>
                   </div>
                 </div>
@@ -355,15 +366,6 @@ export default function Home() {
       <Footer />
       <MobileCTABar />
     </>
-  );
-}
-
-function HeroMiniCard({ title, text, dark = false }: Readonly<{ title: string; text: string; dark?: boolean }>) {
-  return (
-    <div className={`rounded-[1.1rem] border p-3 sm:rounded-[1.5rem] sm:p-5 ${dark ? "border-foreground bg-foreground text-background" : "border-border bg-card"}`}>
-      <p className={`text-xs sm:text-sm ${dark ? "text-background/65" : "text-muted-foreground"}`}>{title}</p>
-      <p className={`mt-2 text-lg font-semibold sm:mt-4 sm:text-2xl ${dark ? "text-background" : ""}`}>{text}</p>
-    </div>
   );
 }
 
