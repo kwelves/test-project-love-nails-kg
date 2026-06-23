@@ -129,7 +129,7 @@ export function Header() {
             aria-current={activeHref === null ? "page" : undefined}
             className={cn(
               "brand-home-glow tap-motion shrink-0 text-base font-semibold tracking-tight transition-colors duration-300 min-[390px]:text-lg",
-              activeHref === null ? "brand-home-glow-active text-primary" : "hover:text-primary",
+              activeHref === null ? "brand-home-glow-active text-foreground" : "hover:text-primary",
             )}
           >
             Love Nails
