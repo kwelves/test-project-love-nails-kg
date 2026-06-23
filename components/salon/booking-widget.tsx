@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CalendarCheck, CheckCircle2, MessageCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { AppointmentScheduler } from "@/components/salon/appointment-scheduler";
 import { trackEvent } from "@/lib/analytics";
 import { bookingTimeSlots, masterBookingOptions } from "@/lib/data/booking";
 import { branches } from "@/lib/data/branches";
@@ -17,7 +18,7 @@ import { salon } from "@/lib/data/salon";
 import { services } from "@/lib/data/services";
 import type { BookingRequest, BranchId } from "@/lib/domain/types";
 
-const today = new Date().toISOString().slice(0, 10);
+const today = formatDateValue(new Date());
 
 const initialState: BookingRequest = {
   branchId: "suerkulova",
@@ -51,6 +52,16 @@ export function BookingWidget({ selectedBranchId }: BookingWidgetProps) {
   const selectedBranch = branches.find((branch) => branch.id === form.branchId);
   const selectedMaster = masterBookingOptions.find((master) => master.id === form.masterId);
 
+  useEffect(() => {
+    const serviceId = new URLSearchParams(window.location.search).get("service");
+    if (!serviceId || serviceId === initialState.serviceId || !services.some((service) => service.id === serviceId)) {
+      return;
+    }
+
+    setForm((current) => ({ ...current, serviceId }));
+    trackEvent("select_service", { service_id: serviceId, source: "service_card" });
+  }, []);
+
   const whatsappMessage = useMemo(() => {
     return [
       "Здравствуйте! Хочу записаться в Love Nails.",
@@ -74,15 +85,18 @@ export function BookingWidget({ selectedBranchId }: BookingWidgetProps) {
     }
     if (key === "serviceId") {
       trackEvent("booking_service_selected", { service_id: String(value) });
+      trackEvent("select_service", { service_id: String(value), source: "booking_form" });
     }
     if (key === "masterId") {
       trackEvent("booking_master_selected", { master_id: String(value), is_any_master: value === "any" });
+      trackEvent("select_staff", { master_id: String(value), is_any_master: value === "any" });
     }
     if (key === "date") {
       trackEvent("booking_date_selected", { date: String(value) });
     }
     if (key === "time") {
       trackEvent("booking_time_selected", { time: String(value) });
+      trackEvent("select_time_slot", { time: String(value) });
     }
   };
 
@@ -134,6 +148,7 @@ export function BookingWidget({ selectedBranchId }: BookingWidgetProps) {
       setServerWhatsappUrl(data.booking.whatsappUrl);
       setSubmitted(true);
       trackEvent("booking_success", { delivery_channel: "api", booking_id: data.booking.id, branch_id: form.branchId });
+      trackEvent("complete_booking", { delivery_channel: "api", booking_id: data.booking.id, branch_id: form.branchId });
     } catch {
       const message = "Не получилось отправить заявку. Попробуйте еще раз или напишите в WhatsApp.";
       setError(message);
@@ -145,16 +160,16 @@ export function BookingWidget({ selectedBranchId }: BookingWidgetProps) {
 
   if (submitted) {
     return (
-      <Card className="overflow-hidden p-6 sm:p-8">
-        <div className="flex size-14 items-center justify-center rounded-full bg-primary/10 text-primary">
-          <CheckCircle2 className="size-7" aria-hidden="true" />
+      <Card className="overflow-hidden p-5 sm:p-8">
+        <div className="flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary sm:size-14">
+          <CheckCircle2 className="size-6 sm:size-7" aria-hidden="true" />
         </div>
-        <h3 className="mt-5 text-2xl font-semibold">Заявка собрана</h3>
+        <h3 className="mt-4 text-xl font-semibold sm:mt-5 sm:text-2xl">Заявка собрана</h3>
         <p className="mt-3 text-sm leading-6 text-muted-foreground">
           Это frontend-прототип: заявка не отправлена в реальный backend. Для клиента здесь будет подтверждение,
           а администратор получит данные в CRM, Google Sheets или мессенджер.
         </p>
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+        <div className="mt-5 flex flex-col gap-3 sm:mt-6 sm:flex-row">
           <Button asChild>
             <a
               href={serverWhatsappUrl || `https://wa.me/${salon.contact.whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`}
@@ -176,20 +191,20 @@ export function BookingWidget({ selectedBranchId }: BookingWidgetProps) {
 
   return (
     <Card className="overflow-hidden">
-      <div className="border-b border-border bg-secondary/55 px-4 py-4 sm:px-6">
+      <div className="border-b border-border bg-secondary/55 px-4 py-3.5 sm:px-6 sm:py-4">
         <Badge variant="secondary">frontend booking MVP</Badge>
-        <h3 className="mt-3 flex items-center gap-2 text-[1.45rem] font-semibold leading-tight sm:text-2xl">
-          <CalendarCheck className="size-6 shrink-0 text-primary" aria-hidden="true" />
+        <h3 className="mt-2.5 flex items-center gap-2 text-xl font-semibold leading-tight sm:mt-3 sm:text-2xl">
+          <CalendarCheck className="size-5 shrink-0 text-primary sm:size-6" aria-hidden="true" />
           Запись в Love Nails
         </h3>
-        <p className="mt-2 text-sm leading-6 text-muted-foreground">
+        <p className="mt-1.5 text-sm leading-6 text-muted-foreground sm:mt-2">
           Выберите филиал, услугу и удобное время. Администратор подтвердит запись.
         </p>
       </div>
-      <form className="grid gap-4 p-4 sm:gap-5 sm:p-6" onSubmit={submit} onFocus={() => trackEvent("booking_start")}>
-        <div className="rounded-2xl border border-border bg-background p-4">
-          <p className="font-mono text-xs uppercase tracking-[0.14em] text-primary">выбор</p>
-          <div className="mt-3 grid gap-2 text-sm text-muted-foreground">
+      <form className="grid gap-3 p-3 sm:gap-5 sm:p-6" onSubmit={submit} onFocus={() => trackEvent("booking_start")}>
+        <div className="rounded-[1rem] border border-border bg-background p-3 sm:rounded-2xl sm:p-4">
+          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-primary sm:text-xs">выбор</p>
+          <div className="mt-2 grid gap-1.5 text-sm text-muted-foreground sm:mt-3 sm:gap-2">
             <p>
               <span className="font-semibold text-foreground">Филиал:</span> {selectedBranch?.shortName}
             </p>
@@ -201,7 +216,20 @@ export function BookingWidget({ selectedBranchId }: BookingWidgetProps) {
             </p>
           </div>
         </div>
-        <div className="grid gap-4 md:grid-cols-2">
+        <div>
+          <AppointmentScheduler
+            date={form.date}
+            time={form.time}
+            minDate={today}
+            timeSlots={bookingTimeSlots}
+            onDateChange={(value) => update("date", value)}
+            onTimeChange={(value) => update("time", value)}
+          />
+          {(fieldErrors.date || fieldErrors.time) && (
+            <p className="mt-2 text-sm text-destructive">{fieldErrors.date ?? fieldErrors.time}</p>
+          )}
+        </div>
+        <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
           <Field label="Филиал" error={fieldErrors.branchId}>
             <Select value={form.branchId} onChange={(event) => update("branchId", event.target.value as BranchId)}>
               {branches.map((branch) => (
@@ -229,18 +257,6 @@ export function BookingWidget({ selectedBranchId }: BookingWidgetProps) {
               ))}
             </Select>
           </Field>
-          <Field label="Дата" error={fieldErrors.date}>
-            <Input value={form.date} min={today} type="date" onChange={(event) => update("date", event.target.value)} />
-          </Field>
-          <Field label="Время" error={fieldErrors.time}>
-            <Select value={form.time} onChange={(event) => update("time", event.target.value)}>
-              {bookingTimeSlots.map((slot) => (
-                <option key={slot.value} value={slot.value}>
-                  {slot.label}
-                </option>
-              ))}
-            </Select>
-          </Field>
           <Field label="Имя" error={fieldErrors.name}>
             <Input value={form.name} placeholder="Например, Айгерим" onChange={(event) => update("name", event.target.value)} />
           </Field>
@@ -262,17 +278,17 @@ export function BookingWidget({ selectedBranchId }: BookingWidgetProps) {
             />
           </Field>
         </div>
-        <label className="flex items-start gap-3 rounded-2xl border border-border bg-background p-4 text-sm leading-6">
+        <label className="flex items-start gap-3 rounded-[1rem] border border-border bg-background p-3 text-sm leading-6 sm:rounded-2xl sm:p-4">
           <Checkbox checked={form.consent} onChange={(event) => update("consent", event.target.checked)} />
           <span>Согласна на обработку данных для подтверждения записи.</span>
         </label>
         {fieldErrors.consentAccepted && <p className="-mt-2 text-sm text-destructive">{fieldErrors.consentAccepted}</p>}
         {error && (
-          <p className="rounded-2xl border border-destructive/25 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+          <p className="rounded-[1rem] border border-destructive/25 bg-destructive/10 px-3 py-2.5 text-sm text-destructive sm:rounded-2xl sm:px-4 sm:py-3">
             {error}
           </p>
         )}
-        <div className="flex flex-col gap-3 pb-1 sm:flex-row sm:pb-0">
+        <div className="flex flex-col gap-2.5 pb-1 sm:flex-row sm:gap-3 sm:pb-0">
           <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={isSubmitting}>
             {isSubmitting ? "Отправляем..." : "Отправить заявку"}
           </Button>
@@ -292,6 +308,14 @@ export function BookingWidget({ selectedBranchId }: BookingWidgetProps) {
   );
 }
 
+function formatDateValue(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
 function Field({
   label,
   children,
@@ -300,7 +324,7 @@ function Field({
 }: Readonly<{ label: string; children: React.ReactNode; className?: string; error?: string }>) {
   return (
     <div className={className}>
-      <Label className="mb-2 block">{label}</Label>
+      <Label className="mb-1.5 block sm:mb-2">{label}</Label>
       {children}
       {error && <p className="mt-2 text-sm text-destructive">{error}</p>}
     </div>

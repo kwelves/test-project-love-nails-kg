@@ -10,7 +10,7 @@ export function MasterCard({ master }: { master: Master }) {
     .slice(0, 2);
 
   return (
-    <Card className="flex items-center gap-4 p-4 shadow-none">
+    <Card className="motion-card flex items-center gap-4 p-4 shadow-none">
       <div className="flex size-14 shrink-0 items-center justify-center rounded-full border border-primary/20 bg-primary/10 font-mono text-sm font-semibold text-primary">
         {initials}
       </div>

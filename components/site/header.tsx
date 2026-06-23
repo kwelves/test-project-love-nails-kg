@@ -1,43 +1,150 @@
+"use client";
+
 import Link from "next/link";
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
 import { ContactButton } from "@/components/shared/contact-button";
 import { Container } from "@/components/layout/container";
+import { TubelightNav, type TubelightNavItem } from "@/components/site/tubelight-nav";
+import { cn } from "@/lib/utils";
 
-const navItems = [
-  { href: "#services", label: "Услуги" },
-  { href: "#branches", label: "Филиалы" },
-  { href: "#gallery", label: "Работы" },
-  { href: "#booking", label: "Запись" },
-  { href: "#contacts", label: "Контакты" },
+const navItems: TubelightNavItem[] = [
+  { href: "#services", label: "Услуги", icon: "services" },
+  { href: "#branches", label: "Филиалы", icon: "branches" },
+  { href: "#gallery", label: "Работы", icon: "gallery" },
+  { href: "#booking", label: "Запись", icon: "booking" },
+  { href: "#contacts", label: "Контакты", icon: "contacts" },
 ];
 
 export function Header() {
+  const [activeHref, setActiveHref] = useState<TubelightNavItem["href"] | null>(null);
+  const navIntentRef = useRef<TubelightNavItem["href"] | null>(null);
+  const navIntentTimerRef = useRef<number | null>(null);
+
+  const clearNavIntent = useCallback(() => {
+    if (navIntentTimerRef.current) {
+      window.clearTimeout(navIntentTimerRef.current);
+      navIntentTimerRef.current = null;
+    }
+    navIntentRef.current = null;
+  }, []);
+
+  const syncActiveSection = useCallback(() => {
+    const sections = navItems
+      .map((item) => ({
+        href: item.href,
+        element: document.getElementById(item.href.slice(1)),
+      }))
+      .filter((section): section is { href: TubelightNavItem["href"]; element: HTMLElement } =>
+        Boolean(section.element),
+      );
+
+    const firstSection = sections[0]?.element;
+    if (!firstSection) {
+      return;
+    }
+
+    const scrollY = window.scrollY;
+    const headerOffset = 88;
+    const firstSectionTop = firstSection.offsetTop - headerOffset;
+
+    if (scrollY < firstSectionTop) {
+      clearNavIntent();
+      setActiveHref(null);
+      return;
+    }
+
+    const probeY = scrollY + headerOffset + Math.min(window.innerHeight * 0.16, 150);
+    const current = sections.reduce<TubelightNavItem["href"] | null>((active, section) => {
+      return section.element.offsetTop - headerOffset <= probeY ? section.href : active;
+    }, sections[0]?.href ?? null);
+
+    if (navIntentRef.current && current !== navIntentRef.current) {
+      return;
+    }
+
+    if (navIntentRef.current === current) {
+      clearNavIntent();
+    }
+
+    setActiveHref(current);
+  }, [clearNavIntent]);
+
+  useEffect(() => {
+    let frame = 0;
+    const scheduleSync = () => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(syncActiveSection);
+    };
+
+    scheduleSync();
+    window.addEventListener("scroll", scheduleSync, { passive: true });
+    window.addEventListener("resize", scheduleSync);
+    window.addEventListener("hashchange", scheduleSync);
+
+    return () => {
+      clearNavIntent();
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", scheduleSync);
+      window.removeEventListener("resize", scheduleSync);
+      window.removeEventListener("hashchange", scheduleSync);
+    };
+  }, [clearNavIntent, syncActiveSection]);
+
+  const handleBrandClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    clearNavIntent();
+    setActiveHref(null);
+    window.history.replaceState(null, "", window.location.pathname + window.location.search);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleNavChange = (href: TubelightNavItem["href"]) => {
+    const target = document.getElementById(href.slice(1));
+    if (!target) {
+      return;
+    }
+
+    clearNavIntent();
+    navIntentRef.current = href;
+    setActiveHref(href);
+    window.history.replaceState(null, "", href);
+    window.scrollTo({
+      top: Math.max(target.offsetTop - 78, 0),
+      behavior: "smooth",
+    });
+
+    navIntentTimerRef.current = window.setTimeout(() => {
+      clearNavIntent();
+      syncActiveSection();
+    }, 950);
+  };
+
   return (
-    <header className="sticky top-0 z-30 border-b border-border/70 bg-background/88 backdrop-blur">
+    <header className="sticky top-0 z-30 border-b border-border/60 bg-background/86 backdrop-blur-xl">
       <Container>
-        <div className="flex min-h-15 items-center justify-between gap-3 md:min-h-16">
-          <Link href="/" className="text-base font-semibold tracking-tight min-[390px]:text-lg">
+        <div className="flex min-h-13 items-center justify-between gap-3 py-2 md:min-h-16">
+          <Link
+            href="/"
+            onClick={handleBrandClick}
+            aria-current={activeHref === null ? "page" : undefined}
+            className={cn(
+              "brand-home-glow tap-motion shrink-0 text-base font-semibold tracking-tight transition-colors duration-300 min-[390px]:text-lg",
+              activeHref === null ? "brand-home-glow-active text-primary" : "hover:text-primary",
+            )}
+          >
             Love Nails
           </Link>
-          <nav className="hidden items-center gap-6 text-sm font-medium text-muted-foreground md:flex">
-            {navItems.map((item) => (
-              <Link key={item.href} href={item.href} className="transition-colors hover:text-foreground">
-                {item.label}
-              </Link>
-            ))}
-          </nav>
+          <TubelightNav
+            items={navItems}
+            activeHref={activeHref}
+            onActiveChange={handleNavChange}
+            className="hidden md:flex"
+          />
           <div className="hidden md:block">
             <ContactButton channel="whatsapp" label="WhatsApp" size="sm" payload={{ placement: "header" }} />
           </div>
         </div>
-        <nav className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-3 text-sm font-semibold text-muted-foreground [scrollbar-width:none] md:hidden">
-          {navItems
-            .filter((item) => item.href !== "#booking")
-            .map((item) => (
-            <Link key={item.href} href={item.href} className="whitespace-nowrap rounded-full border border-border bg-card px-3 py-2">
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+        <TubelightNav items={navItems} activeHref={activeHref} onActiveChange={handleNavChange} className="mb-2 md:hidden" />
       </Container>
     </header>
   );

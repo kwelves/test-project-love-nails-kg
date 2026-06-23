@@ -22,6 +22,7 @@ import { masters } from "@/lib/data/masters";
 import { reviews } from "@/lib/data/reviews";
 import { salon } from "@/lib/data/salon";
 import { services } from "@/lib/data/services";
+import { SITE_URL } from "@/lib/site-url";
 
 const facts = ["с 2016 года", "3 филиала", "запись 9:00-21:00", "цены от 500 сом"];
 
@@ -34,9 +35,36 @@ const whyItems = [
   "Достаточно широкий список услуг: от clean manicure до дизайна и наращивания.",
 ];
 
+const faqItems = [
+  {
+    title: "Запись сразу финальная?",
+    text: "Нет. Администратор подтверждает дату, время, мастера и точную стоимость после заявки.",
+  },
+  {
+    title: "Цена может измениться?",
+    text: "В карточках указана цена от. Итог зависит от дизайна, снятия, укрепления и состояния ногтей.",
+  },
+  {
+    title: "Можно выбрать мастера?",
+    text: "Да, в форме можно выбрать конкретного мастера или любого свободного на ближайшее время.",
+  },
+  {
+    title: "Как уточнить дизайн?",
+    text: "Опишите идею в комментарии или отправьте референс в WhatsApp после заявки.",
+  },
+  {
+    title: "Что если я опаздываю?",
+    text: "Лучше сразу написать администратору. Если времени на услугу не хватит, запись могут перенести.",
+  },
+  {
+    title: "Какой канал быстрее?",
+    text: "Форма собирает все данные сразу, а WhatsApp удобен для быстрых уточнений и фото-референсов.",
+  },
+];
+
 export default function Home() {
   const visibleMasters = masters.filter((master) => master.isActive).slice(0, 8);
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://test-project-love-nails-kg.vercel.app";
+  const siteUrl = SITE_URL;
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BeautySalon",
@@ -50,6 +78,23 @@ export default function Home() {
     openingHours: "Mo-Su 09:00-21:00",
     sameAs: [salon.contact.instagramUrl],
     hasMap: branches.map((branch) => branch.fallbackMapLink ?? branch.mapLinks["2gis"]),
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Услуги Love Nails",
+      itemListElement: services
+        .filter((service) => service.isActive)
+        .map((service) => ({
+          "@type": "Offer",
+          name: service.name,
+          price: service.priceFrom,
+          priceCurrency: "KGS",
+          itemOffered: {
+            "@type": "Service",
+            name: service.name,
+            serviceType: service.category,
+          },
+        })),
+    },
     department: branches.map((branch) => ({
       "@type": "BeautySalon",
       name: `Love Nails ${branch.shortName}`,
@@ -68,20 +113,20 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Header />
       <main>
-        <section className="relative overflow-hidden pb-10 pt-7 sm:py-16 lg:py-20">
+        <section className="relative overflow-hidden pb-7 pt-5 sm:py-16 lg:py-20">
           <Container>
-            <div className="grid items-center gap-7 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8">
+            <div className="grid items-center gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8">
               <AnimatedReveal>
                 <div>
                   <Badge variant="secondary">{salon.positioning}</Badge>
-                  <h1 className="mt-4 max-w-4xl text-[2.45rem] font-semibold leading-[1.03] tracking-tight min-[390px]:text-[2.75rem] sm:mt-5 sm:text-6xl lg:text-7xl">
+                  <h1 className="mt-3 max-w-4xl text-[2.08rem] font-semibold leading-[1.04] tracking-tight min-[390px]:text-[2.35rem] sm:mt-5 sm:text-6xl lg:text-7xl">
                     Love Nails - nail-студии в Бишкеке с 2016 года
                   </h1>
-                  <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">
+                  <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">
                     Маникюр, педикюр, покрытие, дизайн и наращивание в удобных филиалах. Выберите филиал,
                     услугу и мастера - администратор подтвердит запись.
                   </p>
-                  <div className="mt-6 hidden flex-col gap-3 sm:mt-8 sm:flex sm:flex-row">
+                  <div className="mt-5 hidden flex-col gap-3 sm:mt-8 sm:flex sm:flex-row">
                     <Button asChild size="lg" className="w-full sm:w-auto">
                       <Link href="#booking">
                         Записаться
@@ -97,7 +142,7 @@ export default function Home() {
                       payload={{ placement: "hero" }}
                     />
                   </div>
-                  <div className="mt-6 flex flex-col gap-3 sm:hidden">
+                  <div className="mt-4 flex flex-col gap-3 sm:hidden">
                     <Button asChild size="lg" variant="secondary" className="w-full">
                       <Link href="#services">
                         Посмотреть услуги
@@ -105,23 +150,23 @@ export default function Home() {
                       </Link>
                     </Button>
                   </div>
-                  <div className="mt-6 grid grid-cols-2 gap-2 sm:mt-8 sm:grid-cols-4 sm:gap-3">
+                  <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-8 sm:grid-cols-4 sm:gap-3">
                     {facts.map((fact) => (
-                      <div key={fact} className="rounded-2xl border border-border bg-card px-3 py-3 sm:px-4">
-                        <p className="font-mono text-[12px] font-semibold text-primary min-[390px]:text-sm">{fact}</p>
+                      <div key={fact} className="rounded-2xl border border-border bg-card px-3 py-2.5 sm:px-4 sm:py-3">
+                        <p className="font-mono text-[11px] font-semibold text-primary min-[390px]:text-xs sm:text-sm">{fact}</p>
                       </div>
                     ))}
                   </div>
                 </div>
               </AnimatedReveal>
               <AnimatedReveal delay={120}>
-                <div className="grid grid-cols-[0.82fr_1.18fr] gap-3 sm:gap-4">
-                  <div className="flex flex-col gap-3 sm:gap-4">
+                <div className="soft-float-slow grid grid-cols-[0.82fr_1.18fr] gap-2.5 sm:gap-4">
+                  <div className="flex flex-col gap-2.5 sm:gap-4">
                     <HeroMiniCard title="Fix price" text="от 850 сом" />
                     <HeroMiniCard title="Direct / WhatsApp" text="9:00-21:00" dark />
                   </div>
-                  <div className="rounded-[1.5rem] border border-border bg-card p-2 shadow-soft sm:rounded-[2rem] sm:p-3">
-                    <div className="relative min-h-[286px] overflow-hidden rounded-[1.1rem] bg-[#f4e6dd] min-[390px]:min-h-[318px] sm:min-h-[420px] sm:rounded-[1.5rem]">
+                  <div className="rounded-[1.35rem] border border-border bg-card p-1.5 shadow-soft sm:rounded-[2rem] sm:p-3">
+                    <div className="relative min-h-[218px] overflow-hidden rounded-[1rem] bg-[#f4e6dd] min-[390px]:min-h-[244px] sm:min-h-[420px] sm:rounded-[1.5rem]">
                       <Image
                         src="/visuals/berry.svg"
                         alt="Berry nail placeholder"
@@ -170,7 +215,7 @@ export default function Home() {
         <Section eyebrow="почему love nails" title="Не luxury spa, а понятная и аккуратная nail-сеть">
           <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3">
             {whyItems.map((item) => (
-              <div key={item} className="rounded-[1.25rem] border border-border bg-card p-5">
+              <div key={item} className="motion-card rounded-[1.25rem] border border-border bg-card p-5">
                 <Check className="mb-4 size-5 text-primary" aria-hidden="true" />
                 <p className="text-sm leading-6 text-muted-foreground">{item}</p>
               </div>
@@ -182,21 +227,29 @@ export default function Home() {
           id="gallery"
           className="bg-[#fff9f4]"
           eyebrow="работы"
-          title="Editorial-плейсхолдеры для будущих реальных фото"
-          description="Здесь нет fake people photos. Как только появятся реальные работы, эти карточки заменяются на фото с alt-текстами."
+          title="Реальные работы в мягкой, чистой эстетике"
+          description="Нюд, френч, аккуратная форма и деликатный дизайн. Секция показывает направление студии без визуального шума и лишней ретуши."
         >
           <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
-            {galleryItems.map((item) => (
+            {galleryItems.map((item, index) => (
               <div
                 key={item.id}
-                className="overflow-hidden rounded-[1.5rem] border border-border bg-card shadow-soft"
+                className="motion-card group overflow-hidden rounded-[1.5rem] border border-border bg-card shadow-soft"
               >
-                <div className="relative aspect-[5/4]">
-                  <Image src={item.imageUrl} alt={`${item.title}: ${item.description}`} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
+                <div className="relative aspect-[4/5] overflow-hidden bg-[#f4e6dd]">
+                  <Image
+                    src={item.imageUrl}
+                    alt={`${item.title}: ${item.description}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    priority={index < 2}
+                    className="object-cover transition-transform duration-500 ease-[var(--ease-ui)] group-hover:scale-[1.035]"
+                  />
                 </div>
                 <div className="p-4">
                   <p className="font-semibold">{item.title}</p>
                   <p className="mt-1 text-sm text-muted-foreground">{item.tone}</p>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground/85">{item.description}</p>
                 </div>
               </div>
             ))}
@@ -224,6 +277,26 @@ export default function Home() {
               <InfoCard icon={<Clock className="size-5" />} title="Запись ежедневно" text="Direct и WhatsApp принимают заявки с 9:00 до 21:00." />
               <InfoCard icon={<Sparkles className="size-5" />} title="Можно уточнить дизайн" text="Комментарий в форме помогает подготовиться к френчу, снятию, укреплению или nail art." />
             </div>
+          </div>
+        </Section>
+
+        <Section
+          id="faq"
+          className="bg-[#fff9f4]"
+          eyebrow="перед записью"
+          title="Коротко о цене, времени и подтверждении"
+          description="Эти ответы снимают самые частые вопросы до переписки и помогают быстрее выбрать удобное окно."
+        >
+          <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {faqItems.map((item) => (
+              <AnimatedReveal key={item.title}>
+                <div className="motion-card h-full rounded-[1.25rem] border border-border bg-card p-4 sm:p-5">
+                  <Check className="mb-3 size-5 text-primary sm:mb-4" aria-hidden="true" />
+                  <p className="font-semibold">{item.title}</p>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.text}</p>
+                </div>
+              </AnimatedReveal>
+            ))}
           </div>
         </Section>
 
@@ -260,6 +333,7 @@ export default function Home() {
         </Section>
 
         <Section
+          id="contacts"
           className="bg-foreground text-background"
           eyebrow="контакты"
           title="Готовы записаться или уточнить детали?"
@@ -267,7 +341,7 @@ export default function Home() {
         >
           <div className="grid gap-4 md:grid-cols-3">
             {branches.map((branch) => (
-              <div key={branch.id} className="rounded-[1.25rem] border border-background/10 bg-background/5 p-5">
+              <div key={branch.id} className="motion-card rounded-[1.25rem] border border-background/10 bg-background/5 p-5">
                 <MapPin className="mb-4 size-5 text-[#f3c9d5]" aria-hidden="true" />
                 <p className="font-semibold">{branch.shortName}</p>
                 <p className="mt-2 text-sm leading-6 text-background/70">
@@ -286,18 +360,18 @@ export default function Home() {
 
 function HeroMiniCard({ title, text, dark = false }: Readonly<{ title: string; text: string; dark?: boolean }>) {
   return (
-    <div className={`rounded-[1.25rem] border p-4 sm:rounded-[1.5rem] sm:p-5 ${dark ? "border-foreground bg-foreground text-background" : "border-border bg-card"}`}>
+    <div className={`rounded-[1.1rem] border p-3 sm:rounded-[1.5rem] sm:p-5 ${dark ? "border-foreground bg-foreground text-background" : "border-border bg-card"}`}>
       <p className={`text-xs sm:text-sm ${dark ? "text-background/65" : "text-muted-foreground"}`}>{title}</p>
-      <p className={`mt-3 text-xl font-semibold sm:mt-4 sm:text-2xl ${dark ? "text-background" : ""}`}>{text}</p>
+      <p className={`mt-2 text-lg font-semibold sm:mt-4 sm:text-2xl ${dark ? "text-background" : ""}`}>{text}</p>
     </div>
   );
 }
 
 function InfoCard({ icon, title, text }: Readonly<{ icon: React.ReactNode; title: string; text: string }>) {
   return (
-    <div className="rounded-[1.25rem] border border-border bg-card p-5">
-      <div className="flex size-11 items-center justify-center rounded-full bg-primary/10 text-primary">{icon}</div>
-      <p className="mt-4 font-semibold">{title}</p>
+    <div className="motion-card rounded-[1.25rem] border border-border bg-card p-4 sm:p-5">
+      <div className="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary sm:size-11">{icon}</div>
+      <p className="mt-3 font-semibold sm:mt-4">{title}</p>
       <p className="mt-2 text-sm leading-6 text-muted-foreground">{text}</p>
     </div>
   );

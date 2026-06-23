@@ -14,7 +14,7 @@ interface BranchCardProps {
 
 export function BranchCard({ branch, onBookBranch }: BranchCardProps) {
   return (
-    <Card className="overflow-hidden">
+    <Card className="motion-card overflow-hidden">
       <CardHeader>
         <Badge variant="secondary">{branch.district}</Badge>
         <CardTitle className="mt-3">{branch.shortName}</CardTitle>
