@@ -7,9 +7,11 @@ npm run lint
 npm run typecheck
 npm run build
 npm run test
+npm run smoke
 ```
 
 `npm run test` сейчас выполняет typecheck как минимальную безопасную проверку без добавления тяжелого тестового стека. Для полноценного QA следующим этапом можно добавить Playwright.
+`npm run smoke` делает production build, запускает `next start` на `127.0.0.1:3100` и проверяет главные страницы, sitemap/robots и booking API.
 
 ## Smoke scenarios
 

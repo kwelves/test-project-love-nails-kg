@@ -39,6 +39,8 @@ NEXT_PUBLIC_YANDEX_METRICA_ID=
 NEXT_PUBLIC_META_PIXEL_ID=
 ADMIN_PASSWORD=change-me
 BOOKING_PROVIDER=mock
+TELEGRAM_BOT_TOKEN=
+TELEGRAM_CHAT_ID=
 GOOGLE_SHEETS_SPREADSHEET_ID=
 GOOGLE_SHEETS_CLIENT_EMAIL=
 GOOGLE_SHEETS_PRIVATE_KEY=
@@ -92,6 +94,11 @@ BOOKING_PROVIDER=both
 
 Mock работает сразу. Google adapters требуют env и ручную настройку доступа. См. [GOOGLE_SETUP.md](./GOOGLE_SETUP.md).
 
+## Notifications
+
+Для Telegram-уведомлений о новых заявках задайте `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID`.
+Если значения пустые, заявка сохраняется без ошибки, а уведомление помечается как skipped.
+
 ## Mock admin
 
 `/admin` содержит server-side login и редактирование:
@@ -141,6 +148,7 @@ https://test-project-love-nails-kg.vercel.app
 - Перенос admin storage из localStorage в CMS/database.
 - Реальные Google Sheets/Calendar credentials.
 - WhatsApp/Telegram уведомления.
+- Privacy/thanks страницы и smoke-тест перед деплоем.
 - QA на реальных mobile/tablet/desktop.
 - SEO polish: реальные координаты и филиальные страницы.
 - Подключение домена.

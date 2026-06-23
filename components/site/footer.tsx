@@ -38,6 +38,7 @@ export function Footer() {
               ) : (
                 <span>Telegram будет добавлен после подтверждения ссылки</span>
               )}
+              <Link href="/privacy">Политика конфиденциальности</Link>
             </div>
             <p className="mt-5 text-xs leading-5 text-muted-foreground">
               Цены и график мастеров уточняйте при записи.

@@ -18,6 +18,8 @@ NEXT_PUBLIC_INSTAGRAM_URL=https://www.instagram.com/love_nails_kg/
 NEXT_PUBLIC_TELEGRAM_URL=
 ADMIN_PASSWORD=strong-password
 BOOKING_PROVIDER=mock
+TELEGRAM_BOT_TOKEN=
+TELEGRAM_CHAT_ID=
 ```
 
 Analytics:
@@ -45,6 +47,7 @@ GOOGLE_CALENDAR_PRIVATE_KEY=
 npm run lint
 npm run typecheck
 npm run build
+npm run smoke
 vercel deploy --prod --scope kwelves
 ```
 

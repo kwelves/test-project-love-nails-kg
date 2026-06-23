@@ -3,6 +3,7 @@ import { googleCalendarProvider } from "@/lib/booking/google-calendar";
 import { googleSheetsProvider } from "@/lib/booking/google-sheets";
 import { mockBookingProvider } from "@/lib/booking/mock-store";
 import type { BookingInput, BookingProvider, BookingProviderName, BookingSaveResult } from "@/lib/booking/types";
+import { sendBookingNotifications } from "@/lib/notifications/provider";
 
 function getProviderName(): BookingProviderName {
   const raw = process.env.BOOKING_PROVIDER;
@@ -30,9 +31,11 @@ export async function saveBooking(input: BookingInput): Promise<BookingSaveResul
   const booking = createBookingRecord(input);
   const providers = getProviders();
   const providerResults = await Promise.all(providers.map((provider) => provider.saveBooking(booking)));
+  const notificationResults = await sendBookingNotifications(booking);
 
   return {
     booking,
     providerResults,
+    notificationResults,
   };
 }

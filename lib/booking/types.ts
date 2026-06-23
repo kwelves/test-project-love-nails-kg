@@ -1,6 +1,7 @@
 import type { BranchId, ServiceCategory } from "@/lib/domain/types";
 
 export type BookingProviderName = "mock" | "google_sheets" | "google_calendar" | "both";
+export type NotificationProviderName = "telegram";
 export type BookingRecordStatus = "new" | "confirmed" | "cancelled" | "completed";
 export type Messenger = "whatsapp" | "instagram" | "telegram" | "phone";
 
@@ -50,11 +51,20 @@ export interface BookingProviderResult {
 export interface BookingSaveResult {
   booking: BookingRecord;
   providerResults: BookingProviderResult[];
+  notificationResults: NotificationProviderResult[];
 }
 
 export interface BookingProvider {
   name: BookingProviderName;
   saveBooking(booking: BookingRecord): Promise<BookingProviderResult>;
+}
+
+export interface NotificationProviderResult {
+  provider: NotificationProviderName;
+  ok: boolean;
+  skipped?: boolean;
+  externalId?: string;
+  message?: string;
 }
 
 export interface ValidationResult<T> {

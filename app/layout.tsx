@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { AnalyticsScripts } from "@/components/site/analytics-scripts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -38,7 +39,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ru">
-      <body className="surface-noise antialiased">{children}</body>
+      <body className="surface-noise antialiased">
+        {children}
+        <AnalyticsScripts />
+      </body>
     </html>
   );
 }
