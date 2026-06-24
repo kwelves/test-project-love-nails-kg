@@ -142,6 +142,10 @@ body {
   letter-spacing: 0;
 }
 
+.hero-title-accent {
+  color: #7f1836;
+}
+
 .hero-top-nav {
   border-color: transparent;
   background: transparent;
@@ -218,16 +222,17 @@ body {
 }
 
 .brand-home-glow-active {
-  -webkit-text-stroke: 0.45px rgb(95 20 43 / 0.52);
+  color: #7f1836;
+  -webkit-text-stroke: 0.45px rgb(127 24 54 / 0.58);
   text-shadow:
     0 1px 0 rgb(255 253 249 / 0.92),
     0 -1px 0 rgb(255 253 249 / 0.72),
     1px 0 0 rgb(255 253 249 / 0.78),
     -1px 0 0 rgb(255 253 249 / 0.78),
-    1px 1px 0 rgb(95 20 43 / 0.18),
-    -1px 1px 0 rgb(95 20 43 / 0.14),
-    0 0 10px rgb(201 47 69 / 0.42),
-    0 0 20px rgb(95 20 43 / 0.3);
+    1px 1px 0 rgb(127 24 54 / 0.2),
+    -1px 1px 0 rgb(127 24 54 / 0.16),
+    0 0 10px rgb(127 24 54 / 0.46),
+    0 0 20px rgb(127 24 54 / 0.32);
   animation: brand-glow-in 230ms var(--ease-ui) both;
 }
 

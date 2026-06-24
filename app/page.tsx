@@ -116,7 +116,7 @@ export default function Home() {
               <div className="grid items-end gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-12">
                 <AnimatedReveal>
                   <h1 className="hero-editorial-title max-w-3xl text-[3.4rem] font-normal leading-[0.92] text-foreground min-[390px]:text-[4rem] sm:text-[5.6rem] lg:text-[6.4rem]">
-                    Место, где Вы в центре внимания
+                    Место, где <span className="hero-title-accent">Вы</span> в центре внимания
                   </h1>
                 </AnimatedReveal>
                 <AnimatedReveal delay={90}>
