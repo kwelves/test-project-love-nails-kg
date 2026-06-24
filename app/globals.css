@@ -192,18 +192,13 @@ body {
 }
 
 .since-pill-text-default {
-  animation: since-pill-default 8s var(--ease-ui) infinite;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
 }
 
 .since-pill-text-about {
   opacity: 0;
   transform: translate3d(0, 0.35rem, 0);
-  animation: since-pill-about 8s var(--ease-ui) infinite;
-}
-
-.since-pill:hover .since-pill-text,
-.since-pill:focus-visible .since-pill-text {
-  animation-play-state: paused;
 }
 
 .since-pill:hover .since-pill-text-default,
@@ -407,34 +402,6 @@ body {
   }
 }
 
-@keyframes since-pill-default {
-  0%,
-  36%,
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-  46%,
-  72% {
-    opacity: 0;
-    transform: translate3d(0, -0.35rem, 0);
-  }
-}
-
-@keyframes since-pill-about {
-  0%,
-  36%,
-  100% {
-    opacity: 0;
-    transform: translate3d(0, 0.35rem, 0);
-  }
-  46%,
-  72% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -449,8 +416,7 @@ body {
   .soft-float-slow,
   .mobile-cta-enter,
   .selected-pop,
-  .brand-home-glow-active,
-  .since-pill-text {
+  .brand-home-glow-active {
     animation: none !important;
   }
 
