@@ -136,9 +136,18 @@ export default function Home() {
                     <Button asChild size="lg" variant="secondary" className="w-full px-7 sm:w-auto">
                       <Link href="#gallery">Смотреть работы</Link>
                     </Button>
-                    <div className="inline-flex min-h-12 items-center justify-center rounded-full border border-border/70 bg-white/90 px-6 text-sm font-bold tracking-[0.08em] text-primary shadow-soft backdrop-blur sm:px-7">
-                      SINCE 2016
-                    </div>
+                    <Link
+                      href="#about"
+                      aria-label="Перейти к разделу о Love Nails KG"
+                      className="since-pill"
+                    >
+                      <span className="since-pill-text since-pill-text-default" aria-hidden="true">
+                        SINCE 2016
+                      </span>
+                      <span className="since-pill-text since-pill-text-about" aria-hidden="true">
+                        О нас
+                      </span>
+                    </Link>
                   </div>
                 </AnimatedReveal>
               </div>
@@ -189,7 +198,7 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section eyebrow="почему love nails" title="Не luxury spa, а понятная и аккуратная nail-сеть">
+        <Section id="about" eyebrow="почему love nails" title="Не luxury spa, а понятная и аккуратная nail-сеть">
           <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3">
             {whyItems.map((item) => (
               <div key={item} className="motion-card rounded-[1.25rem] border border-border bg-card p-5">

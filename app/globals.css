@@ -146,6 +146,78 @@ body {
   color: #7f1836;
 }
 
+.since-pill {
+  position: relative;
+  display: inline-flex;
+  min-height: 3rem;
+  min-width: 9.25rem;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgb(230 221 216 / 0.9);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.9);
+  padding: 0.75rem 1.5rem;
+  color: var(--primary);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(14px);
+  transition:
+    background-color 280ms var(--ease-ui),
+    border-color 280ms var(--ease-ui),
+    box-shadow 280ms var(--ease-ui),
+    color 280ms var(--ease-ui);
+}
+
+.since-pill:hover,
+.since-pill:focus-visible {
+  border-color: rgb(142 31 63 / 0.2);
+  background: rgb(255 250 246 / 0.96);
+  box-shadow: 0 14px 34px rgb(142 31 63 / 0.1);
+}
+
+.since-pill-text {
+  position: absolute;
+  inset: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  transition:
+    opacity 420ms var(--ease-ui),
+    transform 420ms var(--ease-ui);
+}
+
+.since-pill-text-default {
+  animation: since-pill-default 8s var(--ease-ui) infinite;
+}
+
+.since-pill-text-about {
+  opacity: 0;
+  transform: translate3d(0, 0.35rem, 0);
+  animation: since-pill-about 8s var(--ease-ui) infinite;
+}
+
+.since-pill:hover .since-pill-text,
+.since-pill:focus-visible .since-pill-text {
+  animation-play-state: paused;
+}
+
+.since-pill:hover .since-pill-text-default,
+.since-pill:focus-visible .since-pill-text-default {
+  opacity: 0;
+  transform: translate3d(0, -0.35rem, 0);
+}
+
+.since-pill:hover .since-pill-text-about,
+.since-pill:focus-visible .since-pill-text-about {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
 .hero-top-nav {
   border-color: transparent;
   background: transparent;
@@ -335,6 +407,34 @@ body {
   }
 }
 
+@keyframes since-pill-default {
+  0%,
+  36%,
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  46%,
+  72% {
+    opacity: 0;
+    transform: translate3d(0, -0.35rem, 0);
+  }
+}
+
+@keyframes since-pill-about {
+  0%,
+  36%,
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 0.35rem, 0);
+  }
+  46%,
+  72% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -349,8 +449,19 @@ body {
   .soft-float-slow,
   .mobile-cta-enter,
   .selected-pop,
-  .brand-home-glow-active {
+  .brand-home-glow-active,
+  .since-pill-text {
     animation: none !important;
+  }
+
+  .since-pill-text-default {
+    opacity: 1;
+    transform: none;
+  }
+
+  .since-pill-text-about {
+    opacity: 0;
+    transform: none;
   }
 
   .tubelight-indicator {
