@@ -120,31 +120,42 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-30 border-b border-border/60 bg-background/86 backdrop-blur-xl">
+    <header className="sticky top-0 z-30 border-b border-border/70 bg-[#fffdf9]/92 backdrop-blur-xl">
       <Container>
-        <div className="flex min-h-13 items-center justify-between gap-3 py-2 md:min-h-16">
+        <div className="flex min-h-13 items-center justify-between gap-3 py-2 md:min-h-14">
           <Link
             href="/"
             onClick={handleBrandClick}
             aria-current={activeHref === null ? "page" : undefined}
             className={cn(
-              "brand-home-glow tap-motion shrink-0 text-base font-semibold tracking-tight transition-colors duration-300 min-[390px]:text-lg",
+              "brand-home-glow tap-motion shrink-0 text-xs font-medium uppercase tracking-[0.08em] transition-colors duration-300 min-[390px]:text-sm",
               activeHref === null ? "brand-home-glow-active text-foreground" : "hover:text-primary",
             )}
           >
-            Love Nails
+            LOVE NAILS
           </Link>
           <TubelightNav
             items={navItems}
             activeHref={activeHref}
             onActiveChange={handleNavChange}
-            className="hidden md:flex"
+            className="hero-top-nav hidden md:flex"
           />
           <div className="hidden md:block">
-            <ContactButton channel="whatsapp" label="WhatsApp" size="sm" payload={{ placement: "header" }} />
+            <ContactButton
+              channel="whatsapp"
+              label="WhatsApp"
+              size="sm"
+              className="whatsapp-header-pill"
+              payload={{ placement: "header" }}
+            />
           </div>
         </div>
-        <TubelightNav items={navItems} activeHref={activeHref} onActiveChange={handleNavChange} className="mb-2 md:hidden" />
+        <TubelightNav
+          items={navItems}
+          activeHref={activeHref}
+          onActiveChange={handleNavChange}
+          className="hero-top-nav mb-2 md:hidden"
+        />
       </Container>
     </header>
   );
