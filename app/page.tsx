@@ -112,7 +112,7 @@ export default function Home() {
       <main>
         <section className="relative overflow-hidden bg-[#fffdf9]">
           <Container>
-            <div className="grid min-h-[calc(100svh-3.25rem)] items-center gap-9 py-10 sm:min-h-[calc(100svh-3.5rem)] sm:gap-12 sm:py-14 lg:grid-cols-[0.96fr_0.92fr] lg:gap-16 lg:py-18">
+            <div className="grid min-h-[calc(100svh-3.25rem)] items-center gap-9 py-10 sm:min-h-[calc(100svh-3.5rem)] sm:gap-12 sm:py-14 lg:grid-cols-[minmax(0,1fr)_minmax(27rem,0.94fr)] lg:gap-12 lg:py-18 xl:gap-16">
               <div className="max-w-3xl">
                 <AnimatedReveal>
                   <div>
@@ -126,7 +126,7 @@ export default function Home() {
                   </div>
                 </AnimatedReveal>
                 <AnimatedReveal delay={90}>
-                  <div className="mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row">
+                  <div className="mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:flex-wrap sm:items-center">
                     <Button asChild size="lg" className="w-full px-7 sm:w-auto">
                       <Link href="#booking">
                         Записаться
@@ -136,15 +136,15 @@ export default function Home() {
                     <Button asChild size="lg" variant="secondary" className="w-full px-7 sm:w-auto">
                       <Link href="#gallery">Смотреть работы</Link>
                     </Button>
+                    <div className="inline-flex min-h-12 items-center justify-center rounded-full border border-border/70 bg-white/90 px-6 text-sm font-bold tracking-[0.08em] text-primary shadow-soft backdrop-blur sm:px-7">
+                      SINCE 2016
+                    </div>
                   </div>
                 </AnimatedReveal>
               </div>
               <AnimatedReveal delay={140}>
-                <div className="relative mx-auto w-full max-w-[28rem] lg:mx-0 lg:max-w-none lg:justify-self-end">
-                  <div className="absolute -left-2 top-4 z-10 rounded-full border border-white/80 bg-white/92 px-5 py-3 text-sm font-bold tracking-[0.08em] text-primary shadow-soft backdrop-blur sm:-left-6 sm:top-7 sm:px-7 sm:py-4 sm:text-base">
-                    SINCE 2016
-                  </div>
-                  <div className="relative aspect-[4/5] min-h-[23rem] overflow-hidden rounded-[1.75rem] border border-border/70 bg-[#f4e6dd] shadow-[0_24px_70px_rgb(35_33_36_/_0.11)] sm:min-h-[29rem] sm:rounded-[2rem] lg:h-[34rem] lg:min-h-0">
+                <div className="relative mx-auto w-full max-w-[28rem] lg:mx-0 lg:w-full lg:max-w-[34rem] lg:justify-self-end">
+                  <div className="relative aspect-[4/5] min-h-[23rem] overflow-hidden rounded-[1.75rem] border border-border/70 bg-[#f4e6dd] shadow-[0_24px_70px_rgb(35_33_36_/_0.11)] sm:min-h-[29rem] sm:rounded-[2rem] lg:aspect-auto lg:h-[34rem] lg:min-h-0">
                     <Image
                       src="/hero/for-hero.jpeg"
                       alt="Мастер Love Nails делает маникюр в светлой студии"
