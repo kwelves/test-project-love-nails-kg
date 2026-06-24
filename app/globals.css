@@ -430,6 +430,16 @@ body {
     transform: none;
   }
 
+  .since-pill:hover .since-pill-text-default,
+  .since-pill:focus-visible .since-pill-text-default {
+    opacity: 0;
+  }
+
+  .since-pill:hover .since-pill-text-about,
+  .since-pill:focus-visible .since-pill-text-about {
+    opacity: 1;
+  }
+
   .tubelight-indicator {
     transition: opacity 0.01ms linear !important;
   }
