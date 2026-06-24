@@ -112,15 +112,21 @@ export default function Home() {
       <main>
         <section className="relative overflow-hidden bg-[#fffdf9]">
           <Container>
-            <div className="flex min-h-[calc(100svh-3.25rem)] flex-col justify-end pb-8 pt-20 sm:min-h-[calc(100svh-3.5rem)] sm:pb-12 sm:pt-28 lg:pb-16">
-              <div className="grid items-end gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:gap-12">
+            <div className="grid min-h-[calc(100svh-3.25rem)] items-center gap-9 py-10 sm:min-h-[calc(100svh-3.5rem)] sm:gap-12 sm:py-14 lg:grid-cols-[0.96fr_0.92fr] lg:gap-16 lg:py-18">
+              <div className="max-w-3xl">
                 <AnimatedReveal>
-                  <h1 className="hero-editorial-title max-w-3xl text-[3.4rem] font-normal leading-[0.92] text-foreground min-[390px]:text-[4rem] sm:text-[5.6rem] lg:text-[6.4rem]">
-                    Место, где <span className="hero-title-accent">Вы</span> в центре внимания
-                  </h1>
+                  <div>
+                    <h1 className="hero-editorial-title text-[3.15rem] font-normal leading-[0.92] text-foreground min-[390px]:text-[3.7rem] sm:text-[5.2rem] lg:text-[5.85rem]">
+                      Место, где <span className="hero-title-accent">Вы</span> в центре внимания
+                    </h1>
+                    <p className="mt-5 max-w-xl text-sm leading-6 text-muted-foreground sm:mt-7 sm:text-base sm:leading-7">
+                      Маникюр, уход и эстетика в пространстве, где каждая деталь создана для вашего
+                      комфорта.
+                    </p>
+                  </div>
                 </AnimatedReveal>
                 <AnimatedReveal delay={90}>
-                  <div className="flex flex-col gap-3 pb-1 sm:flex-row lg:justify-start lg:pb-4">
+                  <div className="mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row">
                     <Button asChild size="lg" className="w-full px-7 sm:w-auto">
                       <Link href="#booking">
                         Записаться
@@ -133,6 +139,23 @@ export default function Home() {
                   </div>
                 </AnimatedReveal>
               </div>
+              <AnimatedReveal delay={140}>
+                <div className="relative mx-auto w-full max-w-[28rem] lg:mx-0 lg:max-w-none lg:justify-self-end">
+                  <div className="absolute -left-2 top-4 z-10 rounded-full border border-white/80 bg-white/92 px-5 py-3 text-sm font-bold tracking-[0.08em] text-primary shadow-soft backdrop-blur sm:-left-6 sm:top-7 sm:px-7 sm:py-4 sm:text-base">
+                    SINCE 2016
+                  </div>
+                  <div className="relative aspect-[4/5] min-h-[23rem] overflow-hidden rounded-[1.75rem] border border-border/70 bg-[#f4e6dd] shadow-[0_24px_70px_rgb(35_33_36_/_0.11)] sm:min-h-[29rem] sm:rounded-[2rem] lg:h-[34rem] lg:min-h-0">
+                    <Image
+                      src="/hero/for-hero.jpeg"
+                      alt="Мастер Love Nails делает маникюр в светлой студии"
+                      fill
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 46vw"
+                      className="object-cover object-center transition-transform duration-700 ease-[var(--ease-ui)] hover:scale-[1.025]"
+                    />
+                  </div>
+                </div>
+              </AnimatedReveal>
             </div>
           </Container>
         </section>
