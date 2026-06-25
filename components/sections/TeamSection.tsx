@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Container } from "@/components/layout/container";
 import { TeamCard } from "@/components/team/TeamCard";
-import { TeamModal } from "@/components/team/TeamModal";
+import { TeamDetailsPanel } from "@/components/team/TeamDetailsPanel";
 import { teamMembers, type TeamMember } from "@/components/team/teamData";
 
 const trustItems = [
@@ -30,6 +30,22 @@ const gridVariants = {
 
 export function TeamSection() {
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
+
+  const openDetails = (member: TeamMember) => {
+    setSelectedMember((current) => (current?.id === member.id ? null : member));
+    window.setTimeout(() => {
+      document.getElementById("team-details")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 60);
+  };
+
+  const moveToBooking = (member: TeamMember) => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("master", member.id);
+    url.hash = "booking";
+    window.history.pushState({}, "", url);
+    window.dispatchEvent(new CustomEvent("booking-selection-change"));
+    document.getElementById("booking")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <>
@@ -80,13 +96,19 @@ export function TeamSection() {
             className="-mx-4 flex snap-x gap-4 overflow-x-auto px-4 pb-3 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4"
           >
             {teamMembers.map((member) => (
-              <TeamCard key={member.id} member={member} onOpen={setSelectedMember} />
+              <TeamCard
+                key={member.id}
+                member={member}
+                isActive={selectedMember?.id === member.id}
+                onOpen={openDetails}
+                onBook={moveToBooking}
+              />
             ))}
           </motion.div>
+
+          {selectedMember && <TeamDetailsPanel member={selectedMember} onClose={() => setSelectedMember(null)} />}
         </Container>
       </section>
-
-      <TeamModal member={selectedMember} onClose={() => setSelectedMember(null)} />
     </>
   );
 }
