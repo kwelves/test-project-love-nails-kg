@@ -16,6 +16,8 @@ const navItems: TubelightNavItem[] = [
   { href: "#booking", label: "Запись", icon: "booking" },
 ];
 
+const headerOffset = 78;
+
 export function Header() {
   const [activeHref, setActiveHref] = useState<TubelightNavItem["href"] | null>(null);
   const navIntentRef = useRef<TubelightNavItem["href"] | null>(null);
@@ -44,19 +46,15 @@ export function Header() {
       return;
     }
 
-    const scrollY = window.scrollY;
-    const headerOffset = 88;
-    const firstSectionTop = firstSection.offsetTop - headerOffset;
-
-    if (scrollY < firstSectionTop) {
+    if (firstSection.getBoundingClientRect().top > headerOffset + 8) {
       clearNavIntent();
       setActiveHref(null);
       return;
     }
 
-    const probeY = scrollY + headerOffset + Math.min(window.innerHeight * 0.16, 150);
+    const activationLine = headerOffset + 12;
     const current = sections.reduce<TubelightNavItem["href"] | null>((active, section) => {
-      return section.element.offsetTop - headerOffset <= probeY ? section.href : active;
+      return section.element.getBoundingClientRect().top <= activationLine ? section.href : active;
     }, sections[0]?.href ?? null);
 
     if (navIntentRef.current && current !== navIntentRef.current) {
@@ -110,7 +108,7 @@ export function Header() {
     setActiveHref(href);
     window.history.replaceState(null, "", href);
     window.scrollTo({
-      top: Math.max(target.offsetTop - 78, 0),
+      top: Math.max(target.getBoundingClientRect().top + window.scrollY - headerOffset, 0),
       behavior: "smooth",
     });
 
