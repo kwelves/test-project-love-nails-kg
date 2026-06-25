@@ -22,7 +22,7 @@ export const teamMembers: TeamMember[] = [
     achievement: "1 900+ клиентов",
     description:
       "Спокойная точность в форме, бережная работа с кутикулой и аккуратное покрытие для ежедневного ухоженного результата.",
-    imageUrl: "/hero/for-hero.jpeg",
+    imageUrl: "/team/nazik.png",
     imagePosition: "50% 42%",
     certificates: ["Комбинированный маникюр", "Гель-лак без перепила"],
     bestWorks: ["Нюдовый маникюр", "Френч", "Чистое покрытие"],
@@ -36,7 +36,7 @@ export const teamMembers: TeamMember[] = [
     achievement: "1 700+ клиентов",
     description:
       "Любит мягкую классику и чистые линии: френч, молочные оттенки и покрытия, которые выглядят дорого без лишнего шума.",
-    imageUrl: "/works/french.jpeg",
+    imageUrl: "/team/zharkynai.png",
     imagePosition: "50% 50%",
     certificates: ["Френч и архитектура", "Укрепление ногтей"],
     bestWorks: ["Френч", "Молочная база", "Аккуратная форма"],
@@ -50,7 +50,7 @@ export const teamMembers: TeamMember[] = [
     achievement: "2 100+ клиентов",
     description:
       "Работает со сложными запросами: длина, архитектура, прочность и дизайн, который сохраняет аккуратность в носке.",
-    imageUrl: "/works/extension.jpeg",
+    imageUrl: "/team/ishengul.png",
     imagePosition: "50% 50%",
     certificates: ["Моделирование ногтей", "Сложные формы"],
     bestWorks: ["Наращивание", "Длинная форма", "Укрепление"],
@@ -64,7 +64,7 @@ export const teamMembers: TeamMember[] = [
     achievement: "1 600+ клиентов",
     description:
       "Помогает подобрать длину и форму под образ жизни, чтобы результат был выразительным, но оставался комфортным.",
-    imageUrl: "/works/minimal-art.jpeg",
+    imageUrl: "/team/aizhan.png",
     imagePosition: "50% 50%",
     certificates: ["Nail design", "Архитектура ногтей"],
     bestWorks: ["Минималистичный дизайн", "Наращивание", "Нюд"],
@@ -78,7 +78,7 @@ export const teamMembers: TeamMember[] = [
     achievement: "1 100+ клиентов",
     description:
       "Делает понятный, чистый маникюр на каждый день: без перегруза, с мягким подбором оттенка и формы.",
-    imageUrl: "/works/clean-manicure.jpeg",
+    imageUrl: "/team/kamila.png",
     imagePosition: "50% 50%",
     certificates: ["Базовый маникюр", "Покрытие гель-лаком"],
     bestWorks: ["Clean manicure", "Нюд", "Короткая форма"],
@@ -92,7 +92,7 @@ export const teamMembers: TeamMember[] = [
     achievement: "70+ учениц",
     description:
       "Системный подход к технике, гигиене и скорости. Подходит тем, кто ценит опыт и уверенную руку мастера.",
-    imageUrl: "/works/nude.jpeg",
+    imageUrl: "/team/shakhnoza.png",
     imagePosition: "50% 50%",
     certificates: ["Инструктор nail-сервиса", "Повышение квалификации"],
     bestWorks: ["Нюд", "Комбинированный маникюр", "Покрытие"],
@@ -106,7 +106,7 @@ export const teamMembers: TeamMember[] = [
     achievement: "1 300+ клиентов",
     description:
       "Бережный уход для рук и стоп, аккуратное покрытие и спокойная эстетика без лишней декоративности.",
-    imageUrl: "/works/berry.jpeg",
+    imageUrl: "/team/kumush.png",
     imagePosition: "50% 50%",
     certificates: ["Педикюр", "SPA-уход"],
     bestWorks: ["Педикюр", "Маникюр", "Цветное покрытие"],
@@ -120,7 +120,7 @@ export const teamMembers: TeamMember[] = [
     achievement: "900+ клиентов",
     description:
       "Внимательна к деталям и комфорту в процессе: помогает выбрать спокойный дизайн и удобное время для записи.",
-    imageUrl: "/works/clean-manicure.jpeg",
+    imageUrl: "/team/nura.png",
     imagePosition: "50% 50%",
     certificates: ["Nail-сервис", "Деликатное снятие"],
     bestWorks: ["Классика", "Нюд", "Повседневный маникюр"],
