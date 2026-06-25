@@ -1,8 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowRight, CalendarCheck, Check, Clock, Sparkles } from "lucide-react";
 import { AnimatedReveal } from "@/components/shared/animated-reveal";
 import { ContactButton } from "@/components/shared/contact-button";
+import { SmoothAnchor } from "@/components/shared/smooth-anchor";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { BranchCard } from "@/components/salon/branch-card";
@@ -126,15 +126,15 @@ export default function Home() {
                 <AnimatedReveal delay={90}>
                   <div className="mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:flex-wrap sm:items-center">
                     <Button asChild size="lg" className="w-full px-7 sm:w-auto">
-                      <Link href="#booking">
+                      <SmoothAnchor href="#booking">
                         Записаться
                         <ArrowRight className="size-4" aria-hidden="true" />
-                      </Link>
+                      </SmoothAnchor>
                     </Button>
                     <Button asChild size="lg" variant="secondary" className="w-full px-7 sm:w-auto">
-                      <Link href="#gallery">Смотреть работы</Link>
+                      <SmoothAnchor href="#gallery">Смотреть работы</SmoothAnchor>
                     </Button>
-                    <Link
+                    <SmoothAnchor
                       href="#about"
                       aria-label="Перейти к разделу о Love Nails KG"
                       className="since-pill"
@@ -145,7 +145,7 @@ export default function Home() {
                       <span className="since-pill-text since-pill-text-about" aria-hidden="true">
                         О нас
                       </span>
-                    </Link>
+                    </SmoothAnchor>
                   </div>
                 </AnimatedReveal>
               </div>

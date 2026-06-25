@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CalendarCheck, CheckCircle2, MessageCircle } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -48,10 +47,15 @@ export function BookingWidget({ selectedBranchId }: BookingWidgetProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [serverWhatsappUrl, setServerWhatsappUrl] = useState("");
   const [isHighlighted, setIsHighlighted] = useState(false);
+  const formRef = useRef(form);
 
   const selectedService = services.find((service) => service.id === form.serviceId);
   const selectedBranch = branches.find((branch) => branch.id === form.branchId);
   const selectedMaster = masterBookingOptions.find((master) => master.id === form.masterId);
+
+  useEffect(() => {
+    formRef.current = form;
+  }, [form]);
 
   useEffect(() => {
     const applyUrlSelection = () => {
@@ -60,37 +64,30 @@ export function BookingWidget({ selectedBranchId }: BookingWidgetProps) {
       const masterId = params.get("master");
       const date = params.get("date");
       const time = params.get("time");
-      let changed = false;
 
-      setForm((current) => {
-        const next = { ...current };
+      const current = formRef.current;
+      const updates: Partial<BookingRequest> = {};
 
-        if (serviceId && services.some((service) => service.id === serviceId) && current.serviceId !== serviceId) {
-          next.serviceId = serviceId;
-          changed = true;
-          trackEvent("select_service", { service_id: serviceId, source: "service_card" });
-        }
+      if (serviceId && services.some((service) => service.id === serviceId) && current.serviceId !== serviceId) {
+        updates.serviceId = serviceId;
+        trackEvent("select_service", { service_id: serviceId, source: "service_card" });
+      }
 
-        if (masterId && masterBookingOptions.some((master) => master.id === masterId) && current.masterId !== masterId) {
-          next.masterId = masterId;
-          changed = true;
-          trackEvent("select_staff", { master_id: masterId, is_any_master: false });
-        }
+      if (masterId && masterBookingOptions.some((master) => master.id === masterId) && current.masterId !== masterId) {
+        updates.masterId = masterId;
+        trackEvent("select_staff", { master_id: masterId, is_any_master: false });
+      }
 
-        if (date && /^\d{4}-\d{2}-\d{2}$/.test(date) && current.date !== date) {
-          next.date = date;
-          changed = true;
-        }
+      if (date && /^\d{4}-\d{2}-\d{2}$/.test(date) && current.date !== date) {
+        updates.date = date;
+      }
 
-        if (time && bookingTimeSlots.some((slot) => slot.value === time) && current.time !== time) {
-          next.time = time;
-          changed = true;
-        }
+      if (time && bookingTimeSlots.some((slot) => slot.value === time) && current.time !== time) {
+        updates.time = time;
+      }
 
-        return next;
-      });
-
-      if (changed) {
+      if (Object.keys(updates).length > 0) {
+        setForm((currentForm) => ({ ...currentForm, ...updates }));
         setSubmitted(false);
         setIsHighlighted(true);
         window.setTimeout(() => setIsHighlighted(false), 900);
@@ -245,8 +242,7 @@ export function BookingWidget({ selectedBranchId }: BookingWidgetProps) {
   return (
     <Card className="booking-widget-shell overflow-hidden" data-highlighted={isHighlighted ? "true" : "false"}>
       <div className="border-b border-border bg-secondary/55 px-4 py-3.5 sm:px-6 sm:py-4">
-        <Badge variant="secondary">frontend booking MVP</Badge>
-        <h3 className="mt-2.5 flex items-center gap-2 text-xl font-semibold leading-tight sm:mt-3 sm:text-2xl">
+        <h3 className="flex items-center gap-2 text-xl font-semibold leading-tight sm:text-2xl">
           <CalendarCheck className="size-5 shrink-0 text-primary sm:size-6" aria-hidden="true" />
           Запись в Love Nails
         </h3>
