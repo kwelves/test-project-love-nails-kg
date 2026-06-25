@@ -8,16 +8,15 @@ import { Section } from "@/components/layout/section";
 import { BranchCard } from "@/components/salon/branch-card";
 import { BookingWidget } from "@/components/salon/booking-widget";
 import { MapTabs } from "@/components/salon/map-tabs";
-import { MasterCard } from "@/components/salon/master-card";
 import { MobileCTABar } from "@/components/salon/mobile-cta-bar";
 import { ServiceCard } from "@/components/salon/service-card";
 import { TestimonialCard } from "@/components/salon/testimonial-card";
+import { TeamSection } from "@/components/sections/TeamSection";
 import { Footer } from "@/components/site/footer";
 import { Header } from "@/components/site/header";
 import { Button } from "@/components/ui/button";
 import { branches } from "@/lib/data/branches";
 import { galleryItems } from "@/lib/data/gallery";
-import { masters } from "@/lib/data/masters";
 import { reviews } from "@/lib/data/reviews";
 import { salon } from "@/lib/data/salon";
 import { services } from "@/lib/data/services";
@@ -60,7 +59,6 @@ const faqItems = [
 ];
 
 export default function Home() {
-  const visibleMasters = masters.filter((master) => master.isActive).slice(0, 8);
   const siteUrl = SITE_URL;
   const jsonLd = {
     "@context": "https://schema.org",
@@ -168,6 +166,8 @@ export default function Home() {
             </div>
           </Container>
         </section>
+
+        <TeamSection />
 
         <Section
           id="services"
@@ -282,14 +282,6 @@ export default function Home() {
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.text}</p>
                 </div>
               </AnimatedReveal>
-            ))}
-          </div>
-        </Section>
-
-        <Section eyebrow="мастера" title="Мастера, которых можно выбрать в заявке">
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {visibleMasters.map((master) => (
-              <MasterCard key={master.id} master={master} />
             ))}
           </div>
         </Section>
