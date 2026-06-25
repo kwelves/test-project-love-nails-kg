@@ -173,9 +173,9 @@ export default function Home() {
           id="services"
           eyebrow="услуги"
           title="Цены от, длительность и быстрый выбор"
-          description="Карточки сделаны разным ритмом: популярные предложения заметнее, уточняемые услуги честно отмечены."
+          description="Выберите базовый уход, покрытие, дизайн или наращивание. Итоговую стоимость и удобное время администратор подтвердит при записи."
         >
-          <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-4">
             {services.map((service) => (
               <AnimatedReveal key={service.id}>
                 <ServiceCard service={service} featured={service.isHighlighted} />

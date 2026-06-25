@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { ArrowRight, Check, Clock, Sparkles } from "lucide-react";
+import { ArrowRight, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PricePill } from "@/components/shared/price-pill";
 import type { Service } from "@/lib/domain/types";
 import { cn, formatDuration } from "@/lib/utils";
@@ -16,52 +16,40 @@ const categoryLabels = {
 };
 
 export function ServiceCard({ service, featured = false }: { service: Service; featured?: boolean }) {
-  const details = [
-    formatDuration(service.durationFromMinutes, service.durationToMinutes),
-    categoryLabels[service.category],
-    service.isPopular ? "часто выбирают" : "спокойный выбор",
-  ];
+  const duration = formatDuration(service.durationFromMinutes, service.durationToMinutes);
 
   return (
     <Card
       className={cn(
-        "motion-card group flex h-full flex-col overflow-hidden hover:border-primary/30",
-        featured && "bg-foreground text-background",
+        "motion-card group relative flex h-full flex-col overflow-hidden shadow-[0_14px_38px_rgb(35_33_36_/_0.06)] hover:border-primary/30",
+        featured && "border-primary/20 bg-[#fff7f5]",
       )}
     >
-      <CardHeader>
-        <div className="flex flex-wrap items-center gap-2">
+      {featured && <div className="absolute inset-x-5 top-0 h-px bg-primary/35" aria-hidden="true" />}
+      <CardHeader className="gap-3 p-4 sm:p-4">
+        <div className="flex flex-wrap items-center gap-1.5">
           <PricePill priceFrom={service.priceFrom} priceTo={service.priceTo} priceNote={service.priceNote} />
-          {service.isPopular && <Badge variant={featured ? "secondary" : "outline"}>часто выбирают</Badge>}
+          {service.isPopular && <Badge variant="outline" className="bg-background/65">часто выбирают</Badge>}
+          {featured && <Badge variant="default">выгодно</Badge>}
         </div>
-        <CardTitle className={cn("mt-2 text-xl sm:mt-3 sm:text-2xl", featured && "text-background")}>{service.shortName}</CardTitle>
-        <p className={cn("text-sm leading-5 text-muted-foreground sm:leading-6", featured && "text-background/75")}>
-          {service.description}
-        </p>
+        <CardTitle className="text-lg leading-tight sm:text-xl">{service.shortName}</CardTitle>
+        <p className="text-sm leading-5 text-muted-foreground">{service.description}</p>
       </CardHeader>
-      <CardContent className="flex-1">
-        <div className={cn("grid gap-2 rounded-[1rem] border border-current/10 bg-background p-3 sm:gap-3 sm:rounded-2xl sm:p-4", featured && "bg-background/5")}>
-          {details.map((detail, index) => (
-            <div key={detail} className="flex items-center gap-2 text-sm">
-              {index === 0 ? (
-                <Clock className={cn("size-4 text-primary", featured && "text-[#f3c9d5]")} aria-hidden="true" />
-              ) : (
-                <Check className={cn("size-4 text-primary", featured && "text-[#f3c9d5]")} aria-hidden="true" />
-              )}
-              <span className={cn("text-muted-foreground", featured && "text-background/75")}>{detail}</span>
-            </div>
-          ))}
+      <CardContent className="mt-auto flex items-center justify-between gap-3 border-t border-border/70 p-4 pt-3 sm:p-4 sm:pt-3">
+        <div className="min-w-0 text-xs font-semibold text-muted-foreground">
+          <div className="flex items-center gap-1.5">
+            <Clock className="size-3.5 shrink-0 text-primary" aria-hidden="true" />
+            <span>{duration}</span>
+          </div>
+          <p className="mt-1 truncate">{categoryLabels[service.category]}</p>
         </div>
-      </CardContent>
-      <CardFooter className="justify-between border-t border-current/10 pt-4 sm:pt-5">
-        <Sparkles className={cn("size-5 text-primary transition-transform group-hover:rotate-12", featured && "text-[#f3c9d5]")} aria-hidden="true" />
-        <Button asChild variant={featured ? "secondary" : "outline"} size="sm">
+        <Button asChild variant="outline" size="sm" className="shrink-0">
           <Link href={`/?service=${encodeURIComponent(service.id)}#booking`}>
             Выбрать
             <ArrowRight className="size-4" aria-hidden="true" />
           </Link>
         </Button>
-      </CardFooter>
+      </CardContent>
     </Card>
   );
 }
