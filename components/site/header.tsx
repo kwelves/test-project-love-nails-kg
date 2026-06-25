@@ -14,7 +14,6 @@ const navItems: TubelightNavItem[] = [
   { href: "#about", label: "О нас", icon: "about" },
   { href: "#gallery", label: "Работы", icon: "gallery" },
   { href: "#booking", label: "Запись", icon: "booking" },
-  { href: "#contacts", label: "Контакты", icon: "contacts" },
 ];
 
 export function Header() {

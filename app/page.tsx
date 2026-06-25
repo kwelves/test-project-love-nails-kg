@@ -310,25 +310,6 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section
-          id="contacts"
-          className="bg-foreground text-background"
-          eyebrow="контакты"
-          title="Готовы записаться или уточнить детали?"
-          description="Выберите форму, WhatsApp или Instagram. Точную цену и график мастеров администратор подтвердит при записи."
-        >
-          <div className="grid gap-4 md:grid-cols-3">
-            {branches.map((branch) => (
-              <div key={branch.id} className="motion-card rounded-[1.25rem] border border-background/10 bg-background/5 p-5">
-                <MapPin className="mb-4 size-5 text-[#f3c9d5]" aria-hidden="true" />
-                <p className="font-semibold">{branch.shortName}</p>
-                <p className="mt-2 text-sm leading-6 text-background/70">
-                  {branch.address}, {branch.floorRoom}
-                </p>
-              </div>
-            ))}
-          </div>
-        </Section>
       </main>
       <Footer />
       <MobileCTABar />
