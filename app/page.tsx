@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, CalendarCheck, Check, Clock, MapPin, Sparkles } from "lucide-react";
+import { ArrowRight, CalendarCheck, Check, Clock, Sparkles } from "lucide-react";
 import { AnimatedReveal } from "@/components/shared/animated-reveal";
 import { ContactButton } from "@/components/shared/contact-button";
 import { Container } from "@/components/layout/container";
@@ -295,18 +295,6 @@ export default function Home() {
             {reviews.map((review) => (
               <TestimonialCard key={review.id} review={review} />
             ))}
-          </div>
-        </Section>
-
-        <Section
-          eyebrow="локальный поиск"
-          title="Маникюр и педикюр в Бишкеке рядом с вами"
-          description="Love Nails помогает быстро выбрать салон маникюра в Бишкеке: маникюр рядом, педикюр, гель лак, френч и наращивание ногтей без лишней переписки. Выберите филиал, посмотрите цену от и оставьте заявку на удобное время."
-        >
-          <div className="grid gap-4 md:grid-cols-3">
-            <InfoCard icon={<Sparkles className="size-5" />} title="Маникюр Бишкек" text="Базовый уход, покрытие, френч и дизайн для повседневного аккуратного результата." />
-            <InfoCard icon={<Clock className="size-5" />} title="Педикюр Бишкек" text="Педикюр с SPA, покрытием и дизайном с ориентиром по времени до записи." />
-            <InfoCard icon={<MapPin className="size-5" />} title="Nail studio Бишкек" text="Филиалы в 3 мкр / Орто-Сай, Beta Stores и Восток-5." />
           </div>
         </Section>
 
