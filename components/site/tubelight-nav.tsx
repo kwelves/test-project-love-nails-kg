@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { CalendarCheck, Images, MapPin, Phone, Scissors, type LucideIcon } from "lucide-react";
+import { CalendarCheck, Heart, Images, MapPin, Phone, Scissors, Users, type LucideIcon } from "lucide-react";
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import { cn } from "@/lib/utils";
 
-type NavIcon = "services" | "branches" | "gallery" | "booking" | "contacts";
+type NavIcon = "team" | "services" | "branches" | "about" | "gallery" | "booking" | "contacts";
 
 export interface TubelightNavItem {
   href: `#${string}`;
@@ -14,8 +14,10 @@ export interface TubelightNavItem {
 }
 
 const iconMap: Record<NavIcon, LucideIcon> = {
+  team: Users,
   services: Scissors,
   branches: MapPin,
+  about: Heart,
   gallery: Images,
   booking: CalendarCheck,
   contacts: Phone,

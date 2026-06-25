@@ -8,8 +8,10 @@ import { TubelightNav, type TubelightNavItem } from "@/components/site/tubelight
 import { cn } from "@/lib/utils";
 
 const navItems: TubelightNavItem[] = [
+  { href: "#team", label: "Мастера", icon: "team" },
   { href: "#services", label: "Услуги", icon: "services" },
   { href: "#branches", label: "Филиалы", icon: "branches" },
+  { href: "#about", label: "О нас", icon: "about" },
   { href: "#gallery", label: "Работы", icon: "gallery" },
   { href: "#booking", label: "Запись", icon: "booking" },
   { href: "#contacts", label: "Контакты", icon: "contacts" },
