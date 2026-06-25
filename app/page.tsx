@@ -253,8 +253,8 @@ export default function Home() {
         <Section
           id="booking"
           eyebrow="онлайн-запись"
-          title="Форма собирает все, что администратору нужно для подтверждения"
-          description="Это frontend MVP: submit показывает success state, WhatsApp получает предзаполненное сообщение."
+          title="Оставьте заявку, а мы уточним детали"
+          description="Выберите услугу, филиал и удобное время. Администратор свяжется с вами, подтвердит запись и итоговую стоимость."
         >
           <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr] lg:gap-6">
             <BookingWidget />
