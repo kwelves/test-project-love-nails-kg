@@ -21,6 +21,9 @@ export const masterBookingOptions = [
   { id: "zharkynai", name: "Жаркынай" },
   { id: "ishengul", name: "Ишенгуль" },
   { id: "aizhan", name: "Айжан" },
+  { id: "kamila", name: "Камила" },
+  { id: "shakhnoza", name: "Шахноза" },
   { id: "kumush", name: "Кумуш" },
+  { id: "nura", name: "Нура" },
   { id: "other", name: "Другое / уточнить в WhatsApp" },
 ] as const;

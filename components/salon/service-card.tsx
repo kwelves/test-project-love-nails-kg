@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +16,18 @@ const categoryLabels = {
   extension: "наращивание",
   express: "комплекс",
 };
+
+function moveToBooking(params: Record<string, string>) {
+  const url = new URL(window.location.href);
+
+  Object.entries(params).forEach(([key, value]) => {
+    url.searchParams.set(key, value);
+  });
+  url.hash = "booking";
+  window.history.pushState({}, "", url);
+  window.dispatchEvent(new CustomEvent("booking-selection-change"));
+  document.getElementById("booking")?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
 
 export function ServiceCard({ service, featured = false }: { service: Service; featured?: boolean }) {
   const duration = formatDuration(service.durationFromMinutes, service.durationToMinutes);
@@ -44,7 +58,13 @@ export function ServiceCard({ service, featured = false }: { service: Service; f
           <p className="mt-1 truncate">{categoryLabels[service.category]}</p>
         </div>
         <Button asChild variant="outline" size="sm" className="shrink-0">
-          <Link href={`/?service=${encodeURIComponent(service.id)}#booking`}>
+          <Link
+            href={`/?service=${encodeURIComponent(service.id)}#booking`}
+            onClick={(event) => {
+              event.preventDefault();
+              moveToBooking({ service: service.id });
+            }}
+          >
             Выбрать
             <ArrowRight className="size-4" aria-hidden="true" />
           </Link>

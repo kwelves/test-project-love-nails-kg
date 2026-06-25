@@ -33,7 +33,7 @@ export function TeamSection() {
 
   return (
     <>
-      <section className="bg-[#fffdf9] py-7 sm:py-10" aria-label="Доверие к Love Nails">
+      <section className="bg-[#fffdf9] py-6 sm:py-8" aria-label="Доверие к Love Nails">
         <Container>
           <div className="grid gap-4 border-y border-border/70 py-5 sm:grid-cols-4 sm:gap-6 sm:py-7">
             {trustItems.map((item) => (
@@ -48,13 +48,13 @@ export function TeamSection() {
         </Container>
       </section>
 
-      <section id="team" className="scroll-mt-24 bg-[#fffdf9] py-9 sm:scroll-mt-28 sm:py-20">
+      <section id="team" className="scroll-mt-18 bg-[#fffdf9] py-8 sm:scroll-mt-20 sm:py-14">
         <Container>
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.35 }}
-            className="mb-6 max-w-3xl sm:mb-12"
+            className="mb-6 max-w-3xl sm:mb-9"
           >
             <motion.h2
               variants={titleVariants}

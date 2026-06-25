@@ -8,9 +8,43 @@ export interface TeamMember {
   description: string;
   imageUrl: string;
   imagePosition: string;
+  workImages: string[];
+  serviceIds: string[];
   certificates: string[];
   bestWorks: string[];
 }
+
+const softWorks = [
+  "/works/clean-manicure.jpeg",
+  "/works/french.jpeg",
+  "/works/nude.jpeg",
+  "/works/minimal-art.jpeg",
+  "/works/berry.jpeg",
+];
+
+const designWorks = [
+  "/works/french.jpeg",
+  "/works/minimal-art.jpeg",
+  "/works/extension.jpeg",
+  "/works/nude.jpeg",
+  "/works/clean-manicure.jpeg",
+];
+
+const extensionWorks = [
+  "/works/extension.jpeg",
+  "/works/minimal-art.jpeg",
+  "/works/french.jpeg",
+  "/works/berry.jpeg",
+  "/works/nude.jpeg",
+];
+
+const careWorks = [
+  "/works/nude.jpeg",
+  "/works/clean-manicure.jpeg",
+  "/works/berry.jpeg",
+  "/works/french.jpeg",
+  "/works/minimal-art.jpeg",
+];
 
 export const teamMembers: TeamMember[] = [
   {
@@ -24,6 +58,8 @@ export const teamMembers: TeamMember[] = [
       "Спокойная точность в форме, бережная работа с кутикулой и аккуратное покрытие для ежедневного ухоженного результата.",
     imageUrl: "/team/nazik.png",
     imagePosition: "50% 42%",
+    workImages: softWorks,
+    serviceIds: ["basic-manicure", "combo-color", "combo-design", "french", "fix-price"],
     certificates: ["Комбинированный маникюр", "Гель-лак без перепила"],
     bestWorks: ["Нюдовый маникюр", "Френч", "Чистое покрытие"],
   },
@@ -38,6 +74,8 @@ export const teamMembers: TeamMember[] = [
       "Любит мягкую классику и чистые линии: френч, молочные оттенки и покрытия, которые выглядят дорого без лишнего шума.",
     imageUrl: "/team/zharkynai.png",
     imagePosition: "50% 50%",
+    workImages: designWorks,
+    serviceIds: ["combo-color", "combo-design", "french", "fix-price"],
     certificates: ["Френч и архитектура", "Укрепление ногтей"],
     bestWorks: ["Френч", "Молочная база", "Аккуратная форма"],
   },
@@ -52,6 +90,8 @@ export const teamMembers: TeamMember[] = [
       "Работает со сложными запросами: длина, архитектура, прочность и дизайн, который сохраняет аккуратность в носке.",
     imageUrl: "/team/ishengul.png",
     imagePosition: "50% 50%",
+    workImages: extensionWorks,
+    serviceIds: ["combo-design", "french", "fix-price", "extension"],
     certificates: ["Моделирование ногтей", "Сложные формы"],
     bestWorks: ["Наращивание", "Длинная форма", "Укрепление"],
   },
@@ -66,6 +106,8 @@ export const teamMembers: TeamMember[] = [
       "Помогает подобрать длину и форму под образ жизни, чтобы результат был выразительным, но оставался комфортным.",
     imageUrl: "/team/aizhan.png",
     imagePosition: "50% 50%",
+    workImages: extensionWorks,
+    serviceIds: ["combo-color", "combo-design", "french", "extension"],
     certificates: ["Nail design", "Архитектура ногтей"],
     bestWorks: ["Минималистичный дизайн", "Наращивание", "Нюд"],
   },
@@ -80,6 +122,8 @@ export const teamMembers: TeamMember[] = [
       "Делает понятный, чистый маникюр на каждый день: без перегруза, с мягким подбором оттенка и формы.",
     imageUrl: "/team/kamila.png",
     imagePosition: "50% 50%",
+    workImages: softWorks,
+    serviceIds: ["basic-manicure", "combo-color", "combo-design", "french"],
     certificates: ["Базовый маникюр", "Покрытие гель-лаком"],
     bestWorks: ["Clean manicure", "Нюд", "Короткая форма"],
   },
@@ -94,6 +138,8 @@ export const teamMembers: TeamMember[] = [
       "Системный подход к технике, гигиене и скорости. Подходит тем, кто ценит опыт и уверенную руку мастера.",
     imageUrl: "/team/shakhnoza.png",
     imagePosition: "50% 50%",
+    workImages: careWorks,
+    serviceIds: ["basic-manicure", "combo-color", "combo-design", "fix-price"],
     certificates: ["Инструктор nail-сервиса", "Повышение квалификации"],
     bestWorks: ["Нюд", "Комбинированный маникюр", "Покрытие"],
   },
@@ -108,6 +154,8 @@ export const teamMembers: TeamMember[] = [
       "Бережный уход для рук и стоп, аккуратное покрытие и спокойная эстетика без лишней декоративности.",
     imageUrl: "/team/kumush.png",
     imagePosition: "50% 50%",
+    workImages: careWorks,
+    serviceIds: ["basic-manicure", "combo-color", "spa-pedicure", "fix-price"],
     certificates: ["Педикюр", "SPA-уход"],
     bestWorks: ["Педикюр", "Маникюр", "Цветное покрытие"],
   },
@@ -122,6 +170,8 @@ export const teamMembers: TeamMember[] = [
       "Внимательна к деталям и комфорту в процессе: помогает выбрать спокойный дизайн и удобное время для записи.",
     imageUrl: "/team/nura.png",
     imagePosition: "50% 50%",
+    workImages: softWorks,
+    serviceIds: ["basic-manicure", "combo-color", "combo-design"],
     certificates: ["Nail-сервис", "Деликатное снятие"],
     bestWorks: ["Классика", "Нюд", "Повседневный маникюр"],
   },

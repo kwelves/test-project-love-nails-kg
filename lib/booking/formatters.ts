@@ -21,14 +21,19 @@ export function normalizeKgPhone(phone: string) {
 
 export function buildWhatsappMessage(booking: Pick<BookingRecord, "branch" | "service" | "master" | "date" | "time" | "name" | "phone" | "comment">) {
   return [
-    "Здравствуйте! Хочу записаться в Love Nails.",
-    `Филиал: ${booking.branch}`,
-    `Услуга: ${booking.service}`,
+    "Здравствуйте!",
+    "",
+    "Хочу записаться.",
+    "",
     `Мастер: ${booking.master}`,
+    `Услуга: ${booking.service}`,
     `Дата: ${booking.date}`,
     `Время: ${booking.time}`,
-    `Имя: ${booking.name}`,
-    `Телефон: ${booking.phone}`,
+    "Подтвердите, пожалуйста, запись.",
+    "",
+    `Филиал: ${booking.branch}`,
+    booking.name ? `Имя: ${booking.name}` : "",
+    booking.phone ? `Телефон: ${booking.phone}` : "",
     booking.comment ? `Комментарий: ${booking.comment}` : "",
   ]
     .filter(Boolean)

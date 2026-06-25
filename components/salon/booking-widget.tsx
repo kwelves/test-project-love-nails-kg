@@ -47,29 +47,81 @@ export function BookingWidget({ selectedBranchId }: BookingWidgetProps) {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [serverWhatsappUrl, setServerWhatsappUrl] = useState("");
+  const [isHighlighted, setIsHighlighted] = useState(false);
 
   const selectedService = services.find((service) => service.id === form.serviceId);
   const selectedBranch = branches.find((branch) => branch.id === form.branchId);
   const selectedMaster = masterBookingOptions.find((master) => master.id === form.masterId);
 
   useEffect(() => {
-    const serviceId = new URLSearchParams(window.location.search).get("service");
-    if (!serviceId || serviceId === initialState.serviceId || !services.some((service) => service.id === serviceId)) {
-      return;
-    }
+    const applyUrlSelection = () => {
+      const params = new URLSearchParams(window.location.search);
+      const serviceId = params.get("service");
+      const masterId = params.get("master");
+      const date = params.get("date");
+      const time = params.get("time");
+      let changed = false;
 
-    setForm((current) => ({ ...current, serviceId }));
-    trackEvent("select_service", { service_id: serviceId, source: "service_card" });
+      setForm((current) => {
+        const next = { ...current };
+
+        if (serviceId && services.some((service) => service.id === serviceId) && current.serviceId !== serviceId) {
+          next.serviceId = serviceId;
+          changed = true;
+          trackEvent("select_service", { service_id: serviceId, source: "service_card" });
+        }
+
+        if (masterId && masterBookingOptions.some((master) => master.id === masterId) && current.masterId !== masterId) {
+          next.masterId = masterId;
+          changed = true;
+          trackEvent("select_staff", { master_id: masterId, is_any_master: false });
+        }
+
+        if (date && /^\d{4}-\d{2}-\d{2}$/.test(date) && current.date !== date) {
+          next.date = date;
+          changed = true;
+        }
+
+        if (time && bookingTimeSlots.some((slot) => slot.value === time) && current.time !== time) {
+          next.time = time;
+          changed = true;
+        }
+
+        return next;
+      });
+
+      if (changed) {
+        setSubmitted(false);
+        setIsHighlighted(true);
+        window.setTimeout(() => setIsHighlighted(false), 900);
+      }
+    };
+
+    applyUrlSelection();
+    window.addEventListener("booking-selection-change", applyUrlSelection);
+    window.addEventListener("hashchange", applyUrlSelection);
+    window.addEventListener("popstate", applyUrlSelection);
+
+    return () => {
+      window.removeEventListener("booking-selection-change", applyUrlSelection);
+      window.removeEventListener("hashchange", applyUrlSelection);
+      window.removeEventListener("popstate", applyUrlSelection);
+    };
   }, []);
 
   const whatsappMessage = useMemo(() => {
     return [
-      "Здравствуйте! Хочу записаться в Love Nails.",
-      selectedBranch ? `Филиал: ${selectedBranch.shortName}` : "",
-      selectedService ? `Услуга: ${selectedService.shortName}` : "",
+      "Здравствуйте!",
+      "",
+      "Хочу записаться.",
+      "",
       selectedMaster ? `Мастер: ${selectedMaster.name}` : "",
+      selectedService ? `Услуга: ${selectedService.shortName}` : "",
       `Дата: ${form.date}`,
       `Время: ${form.time}`,
+      "Подтвердите, пожалуйста, запись.",
+      "",
+      selectedBranch ? `Филиал: ${selectedBranch.shortName}` : "",
       form.name ? `Имя: ${form.name}` : "",
       form.phone ? `Телефон: ${form.phone}` : "",
       form.comment ? `Комментарий: ${form.comment}` : "",
@@ -145,8 +197,10 @@ export function BookingWidget({ selectedBranchId }: BookingWidgetProps) {
         return;
       }
 
-      setServerWhatsappUrl(data.booking.whatsappUrl);
+      const whatsappUrl = data.booking.whatsappUrl || `https://wa.me/${salon.contact.whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`;
+      setServerWhatsappUrl(whatsappUrl);
       setSubmitted(true);
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
       trackEvent("booking_success", { delivery_channel: "api", booking_id: data.booking.id, branch_id: form.branchId });
       trackEvent("complete_booking", { delivery_channel: "api", booking_id: data.booking.id, branch_id: form.branchId });
     } catch {
@@ -166,8 +220,7 @@ export function BookingWidget({ selectedBranchId }: BookingWidgetProps) {
         </div>
         <h3 className="mt-4 text-xl font-semibold sm:mt-5 sm:text-2xl">Заявка собрана</h3>
         <p className="mt-3 text-sm leading-6 text-muted-foreground">
-          Это frontend-прототип: заявка не отправлена в реальный backend. Для клиента здесь будет подтверждение,
-          а администратор получит данные в CRM, Google Sheets или мессенджер.
+          WhatsApp уже открыт с готовым сообщением. Проверьте данные и отправьте его администратору для подтверждения записи.
         </p>
         <div className="mt-5 flex flex-col gap-3 sm:mt-6 sm:flex-row">
           <Button asChild>
@@ -190,7 +243,7 @@ export function BookingWidget({ selectedBranchId }: BookingWidgetProps) {
   }
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="booking-widget-shell overflow-hidden" data-highlighted={isHighlighted ? "true" : "false"}>
       <div className="border-b border-border bg-secondary/55 px-4 py-3.5 sm:px-6 sm:py-4">
         <Badge variant="secondary">frontend booking MVP</Badge>
         <h3 className="mt-2.5 flex items-center gap-2 text-xl font-semibold leading-tight sm:mt-3 sm:text-2xl">
