@@ -118,9 +118,6 @@ export function PopularQuestionsSection() {
     <Section
       id="popular-questions"
       className="scroll-mt-28 bg-[#fff9f4] py-6 sm:py-8 md:scroll-mt-20"
-      headerClassName="mb-4 max-w-2xl sm:mb-5"
-      titleClassName="text-[1.45rem] leading-tight min-[390px]:text-[1.65rem] sm:text-[2.25rem]"
-      descriptionClassName="max-w-xl sm:mt-2 sm:text-base sm:leading-6"
       eyebrow="популярные вопросы"
       title="Популярные вопросы"
       description="Коротко о записи, цене и дизайне - чтобы выбрать удобное окно без лишней переписки."
