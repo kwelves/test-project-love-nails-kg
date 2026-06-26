@@ -228,9 +228,6 @@ export default function Home() {
           eyebrow="онлайн-запись"
           title="Оставьте заявку — мы уточним детали"
           description="Выберите услугу, филиал и удобное время. Администратор свяжется с вами и подтвердит запись."
-          headerClassName="mb-3 max-w-2xl sm:mb-4"
-          titleClassName="sm:text-[2.35rem] sm:leading-[1.06]"
-          descriptionClassName="max-w-xl sm:mt-2 sm:text-base sm:leading-6"
         >
           <div className="grid gap-2.5">
             <BookingWidget />
