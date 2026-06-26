@@ -11,6 +11,7 @@ import { MapTabs } from "@/components/salon/map-tabs";
 import { MobileCTABar } from "@/components/salon/mobile-cta-bar";
 import { ServiceCard } from "@/components/salon/service-card";
 import { TestimonialCard } from "@/components/salon/testimonial-card";
+import { PopularQuestionsSection } from "@/components/sections/PopularQuestionsSection";
 import { TeamSection } from "@/components/sections/TeamSection";
 import { Footer } from "@/components/site/footer";
 import { Header } from "@/components/site/header";
@@ -23,39 +24,10 @@ import { services } from "@/lib/data/services";
 import { SITE_URL } from "@/lib/site-url";
 
 const whyItems = [
-  "Несколько филиалов, чтобы выбрать точку рядом с домом, работой или учебой.",
-  "Цены от и примерная длительность помогают решить до переписки.",
-  "Можно выбрать мастера или любого свободного, если важнее ближайшее время.",
-  "Запись через форму, WhatsApp или Instagram без обязательного звонка.",
-  "Акцент на аккуратность, гигиену и реальные работы вместо стоковых лиц.",
-  "Достаточно широкий список услуг: от clean manicure до дизайна и наращивания.",
-];
-
-const faqItems = [
-  {
-    title: "Запись сразу финальная?",
-    text: "Нет. Администратор подтверждает дату, время, мастера и точную стоимость после заявки.",
-  },
-  {
-    title: "Цена может измениться?",
-    text: "В карточках указана цена от. Итог зависит от дизайна, снятия, укрепления и состояния ногтей.",
-  },
-  {
-    title: "Можно выбрать мастера?",
-    text: "Да, в форме можно выбрать конкретного мастера или любого свободного на ближайшее время.",
-  },
-  {
-    title: "Как уточнить дизайн?",
-    text: "Опишите идею в комментарии или отправьте референс в WhatsApp после заявки.",
-  },
-  {
-    title: "Что если я опаздываю?",
-    text: "Лучше сразу написать администратору. Если времени на услугу не хватит, запись могут перенести.",
-  },
-  {
-    title: "Какой канал быстрее?",
-    text: "Форма собирает все данные сразу, а WhatsApp удобен для быстрых уточнений и фото-референсов.",
-  },
+  "С 2016 года выстроили понятный сервис, где важны порядок, спокойствие и внимание к клиенту.",
+  "Без лишнего пафоса: мягкая beauty-атмосфера, чистая эстетика и дружелюбное общение.",
+  "Аккуратность в деталях чувствуется в форме, покрытии, гигиене и комфорте во время процедуры.",
+  "Живой сервис помогает спокойно уточнить детали, отправить референс и выбрать удобный формат записи.",
 ];
 
 export default function Home() {
@@ -189,7 +161,7 @@ export default function Home() {
           className="bg-[#fff9f4]"
           eyebrow="филиалы"
           title="Выберите филиал рядом с вами"
-          description="Адреса заложены как редактируемые данные. В админке их можно будет включать, отключать и обновлять."
+          description="Выберите удобный филиал Love Nails в Бишкеке - рядом с домом, работой или делами."
         >
           <div className="grid gap-4 lg:grid-cols-3">
             {branches.map((branch) => (
@@ -252,45 +224,31 @@ export default function Home() {
 
         <Section
           id="booking"
+          className="py-6 sm:py-10"
           eyebrow="онлайн-запись"
-          title="Оставьте заявку, а мы уточним детали"
-          description="Выберите услугу, филиал и удобное время. Администратор свяжется с вами, подтвердит запись и итоговую стоимость."
+          title="Оставьте заявку — мы уточним детали"
+          description="Выберите услугу, филиал и удобное время. Администратор свяжется с вами и подтвердит запись."
+          headerClassName="mb-3 max-w-2xl sm:mb-4"
+          titleClassName="sm:text-[2.35rem] sm:leading-[1.06]"
+          descriptionClassName="max-w-xl sm:mt-2 sm:text-base sm:leading-6"
         >
-          <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr] lg:gap-6">
+          <div className="grid gap-2.5">
             <BookingWidget />
-            <div className="grid content-start gap-4">
-              <InfoCard icon={<CalendarCheck className="size-5" />} title="Заявка не финальная бронь" text="Администратор подтверждает дату, время, мастера и точную стоимость." />
-              <InfoCard icon={<Clock className="size-5" />} title="Запись ежедневно" text="Direct и WhatsApp принимают заявки с 9:00 до 21:00." />
-              <InfoCard icon={<Sparkles className="size-5" />} title="Можно уточнить дизайн" text="Комментарий в форме помогает подготовиться к френчу, снятию, укреплению или nail art." />
+            <div className="grid gap-2.5 md:grid-cols-3">
+              <InfoCard icon={<CalendarCheck className="size-5" />} title="Подтверждаем в чате" text="Администратор уточнит детали после заявки." />
+              <InfoCard icon={<Clock className="size-5" />} title="Можно отправить референс" text="Дизайн и идеи удобно обсудить в WhatsApp." />
+              <InfoCard icon={<Sparkles className="size-5" />} title="Ответим в рабочее время" text="Заявки принимаются ежедневно." />
             </div>
           </div>
         </Section>
 
-        <Section
-          id="faq"
-          className="bg-[#fff9f4]"
-          eyebrow="перед записью"
-          title="Коротко о цене, времени и подтверждении"
-          description="Эти ответы снимают самые частые вопросы до переписки и помогают быстрее выбрать удобное окно."
-        >
-          <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {faqItems.map((item) => (
-              <AnimatedReveal key={item.title}>
-                <div className="motion-card h-full rounded-[1.25rem] border border-border bg-card p-4 sm:p-5">
-                  <Check className="mb-3 size-5 text-primary sm:mb-4" aria-hidden="true" />
-                  <p className="font-semibold">{item.title}</p>
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.text}</p>
-                </div>
-              </AnimatedReveal>
-            ))}
-          </div>
-        </Section>
+        <PopularQuestionsSection />
 
         <Section className="bg-[#fff9f4]" eyebrow="карты" title="Маршруты в 2ГИС и Яндекс.Картах">
           <MapTabs />
         </Section>
 
-        <Section eyebrow="отзывы" title="Темы, которые важны клиентам">
+        <Section eyebrow="опыт клиента" title="Что ценят наши клиенты">
           <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-5">
             {reviews.map((review) => (
               <TestimonialCard key={review.id} review={review} />
@@ -307,10 +265,12 @@ export default function Home() {
 
 function InfoCard({ icon, title, text }: Readonly<{ icon: React.ReactNode; title: string; text: string }>) {
   return (
-    <div className="motion-card rounded-[1.25rem] border border-border bg-card p-4 sm:p-5">
-      <div className="flex size-10 items-center justify-center rounded-full bg-primary/10 text-primary sm:size-11">{icon}</div>
-      <p className="mt-3 font-semibold sm:mt-4">{title}</p>
-      <p className="mt-2 text-sm leading-6 text-muted-foreground">{text}</p>
+    <div className="motion-card flex gap-3 rounded-[1rem] border border-border bg-card p-3">
+      <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">{icon}</div>
+      <div>
+        <p className="text-sm font-semibold leading-5">{title}</p>
+        <p className="mt-1 text-sm leading-5 text-muted-foreground">{text}</p>
+      </div>
     </div>
   );
 }
