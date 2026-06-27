@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
 import { ContactButton } from "@/components/shared/contact-button";
+import { getAnchorOffset, scrollToAnchorHash } from "@/components/shared/anchor-scroll";
 import { Container } from "@/components/layout/container";
 import { TubelightNav, type TubelightNavItem } from "@/components/site/tubelight-nav";
 import { cn } from "@/lib/utils";
@@ -15,8 +16,6 @@ const navItems: TubelightNavItem[] = [
   { href: "#gallery", label: "Работы", icon: "gallery" },
   { href: "#booking", label: "Запись", icon: "booking" },
 ];
-
-const headerOffset = 78;
 
 export function Header() {
   const [activeHref, setActiveHref] = useState<TubelightNavItem["href"] | null>(null);
@@ -41,21 +40,28 @@ export function Header() {
         Boolean(section.element),
       );
 
-    const firstSection = sections[0]?.element;
-    if (!firstSection) {
+    const headerOffset = getAnchorOffset();
+    if (!sections.length) {
       return;
     }
 
-    if (firstSection.getBoundingClientRect().top > headerOffset + 8) {
+    const activationLine = headerOffset + 12;
+    if (sections[0].element.getBoundingClientRect().top > headerOffset + 8) {
+      if (navIntentRef.current) {
+        return;
+      }
+
       clearNavIntent();
       setActiveHref(null);
       return;
     }
 
-    const activationLine = headerOffset + 12;
-    const current = sections.reduce<TubelightNavItem["href"] | null>((active, section) => {
-      return section.element.getBoundingClientRect().top <= activationLine ? section.href : active;
-    }, sections[0]?.href ?? null);
+    let current: TubelightNavItem["href"] = sections[0].href;
+    for (const section of sections) {
+      if (section.element.getBoundingClientRect().top <= activationLine) {
+        current = section.href;
+      }
+    }
 
     if (navIntentRef.current && current !== navIntentRef.current) {
       return;
@@ -79,6 +85,7 @@ export function Header() {
     window.addEventListener("scroll", scheduleSync, { passive: true });
     window.addEventListener("resize", scheduleSync);
     window.addEventListener("hashchange", scheduleSync);
+    window.addEventListener("popstate", scheduleSync);
 
     return () => {
       clearNavIntent();
@@ -86,6 +93,7 @@ export function Header() {
       window.removeEventListener("scroll", scheduleSync);
       window.removeEventListener("resize", scheduleSync);
       window.removeEventListener("hashchange", scheduleSync);
+      window.removeEventListener("popstate", scheduleSync);
     };
   }, [clearNavIntent, syncActiveSection]);
 
@@ -106,11 +114,8 @@ export function Header() {
     clearNavIntent();
     navIntentRef.current = href;
     setActiveHref(href);
-    window.history.replaceState(null, "", href);
-    window.scrollTo({
-      top: Math.max(target.getBoundingClientRect().top + window.scrollY - headerOffset, 0),
-      behavior: "smooth",
-    });
+    window.history.pushState(null, "", href);
+    scrollToAnchorHash(href);
 
     navIntentTimerRef.current = window.setTimeout(() => {
       clearNavIntent();
@@ -119,7 +124,7 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-30 border-b border-border/70 bg-[#fffdf9]/92 backdrop-blur-xl">
+    <header data-site-header className="sticky top-0 z-30 border-b border-border/70 bg-[#fffdf9]/92 backdrop-blur-xl">
       <Container>
         <div className="flex min-h-13 items-center justify-between gap-3 py-2 md:min-h-14">
           <Link

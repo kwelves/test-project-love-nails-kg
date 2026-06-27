@@ -241,116 +241,118 @@ export function BookingWidget({ selectedBranchId }: BookingWidgetProps) {
 
   return (
     <Card className="booking-widget-shell overflow-hidden" data-highlighted={isHighlighted ? "true" : "false"}>
-      <div className="border-b border-border bg-secondary/55 px-4 py-3.5 sm:px-6 sm:py-4">
-        <h3 className="flex items-center gap-2 text-xl font-semibold leading-tight sm:text-2xl">
-          <CalendarCheck className="size-5 shrink-0 text-primary sm:size-6" aria-hidden="true" />
-          Запись в Love Nails
+      <div className="border-b border-border bg-secondary/55 px-4 py-2.5 sm:px-5 sm:py-3">
+        <h3 className="flex items-center gap-2 text-base font-semibold leading-tight sm:text-lg">
+          <CalendarCheck className="size-4.5 shrink-0 text-primary" aria-hidden="true" />
+          Детали записи
         </h3>
-        <p className="mt-1.5 text-sm leading-6 text-muted-foreground sm:mt-2">
-          Выберите филиал, услугу и удобное время. Администратор подтвердит запись.
-        </p>
       </div>
-      <form className="grid gap-3 p-3 sm:gap-5 sm:p-6" onSubmit={submit} onFocus={() => trackEvent("booking_start")}>
-        <div className="rounded-[1rem] border border-border bg-background p-3 sm:rounded-2xl sm:p-4">
-          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-primary sm:text-xs">выбор</p>
-          <div className="mt-2 grid gap-1.5 text-sm text-muted-foreground sm:mt-3 sm:gap-2">
-            <p>
+      <form className="grid gap-3 p-3 sm:p-4" onSubmit={submit} onFocus={() => trackEvent("booking_start")}>
+        <div className="rounded-[0.9rem] border border-border bg-background px-3 py-2.5">
+          <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs leading-5 text-muted-foreground sm:text-sm">
+            <span>
               <span className="font-semibold text-foreground">Филиал:</span> {selectedBranch?.shortName}
-            </p>
-            <p>
+            </span>
+            <span>
               <span className="font-semibold text-foreground">Услуга:</span> {selectedService?.shortName}
-            </p>
-            <p>
+            </span>
+            <span>
               <span className="font-semibold text-foreground">Мастер:</span> {selectedMaster?.name}
-            </p>
+            </span>
           </div>
         </div>
-        <div>
-          <AppointmentScheduler
-            date={form.date}
-            time={form.time}
-            minDate={today}
-            timeSlots={bookingTimeSlots}
-            onDateChange={(value) => update("date", value)}
-            onTimeChange={(value) => update("time", value)}
-          />
-          {(fieldErrors.date || fieldErrors.time) && (
-            <p className="mt-2 text-sm text-destructive">{fieldErrors.date ?? fieldErrors.time}</p>
-          )}
-        </div>
-        <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
-          <Field label="Филиал" error={fieldErrors.branchId}>
-            <Select value={form.branchId} onChange={(event) => update("branchId", event.target.value as BranchId)}>
-              {branches.map((branch) => (
-                <option key={branch.id} value={branch.id}>
-                  {branch.shortName} - {branch.district}
-                </option>
-              ))}
-            </Select>
-          </Field>
-          <Field label="Услуга" error={fieldErrors.serviceId}>
-            <Select value={form.serviceId} onChange={(event) => update("serviceId", event.target.value)}>
-              {services.map((service) => (
-                <option key={service.id} value={service.id}>
-                  {service.shortName}
-                </option>
-              ))}
-            </Select>
-          </Field>
-          <Field label="Мастер" error={fieldErrors.masterId}>
-            <Select value={form.masterId} onChange={(event) => update("masterId", event.target.value)}>
-              {masterBookingOptions.map((master) => (
-                <option key={master.id} value={master.id}>
-                  {master.name}
-                </option>
-              ))}
-            </Select>
-          </Field>
-          <Field label="Имя" error={fieldErrors.name}>
-            <Input value={form.name} placeholder="Например, Айгерим" onChange={(event) => update("name", event.target.value)} />
-          </Field>
-          <Field label="Телефон" error={fieldErrors.phone}>
-            <Input
-              value={form.phone}
-              type="tel"
-              inputMode="tel"
-              autoComplete="tel"
-              placeholder="+996 ..."
-              onChange={(event) => update("phone", event.target.value)}
+        <div className="grid gap-3 lg:grid-cols-[minmax(0,1.02fr)_minmax(24rem,0.98fr)]">
+          <div>
+            <AppointmentScheduler
+              date={form.date}
+              time={form.time}
+              minDate={today}
+              timeSlots={bookingTimeSlots}
+              onDateChange={(value) => update("date", value)}
+              onTimeChange={(value) => update("time", value)}
             />
-          </Field>
-          <Field label="Комментарий" className="md:col-span-2">
-            <Textarea
-              value={form.comment}
-              placeholder="Например: нужен френч, снятие или конкретный дизайн"
-              onChange={(event) => update("comment", event.target.value)}
-            />
-          </Field>
-        </div>
-        <label className="flex items-start gap-3 rounded-[1rem] border border-border bg-background p-3 text-sm leading-6 sm:rounded-2xl sm:p-4">
-          <Checkbox checked={form.consent} onChange={(event) => update("consent", event.target.checked)} />
-          <span>Согласна на обработку данных для подтверждения записи.</span>
-        </label>
-        {fieldErrors.consentAccepted && <p className="-mt-2 text-sm text-destructive">{fieldErrors.consentAccepted}</p>}
-        {error && (
-          <p className="rounded-[1rem] border border-destructive/25 bg-destructive/10 px-3 py-2.5 text-sm text-destructive sm:rounded-2xl sm:px-4 sm:py-3">
-            {error}
-          </p>
-        )}
-        <div className="flex flex-col gap-2.5 pb-1 sm:flex-row sm:gap-3 sm:pb-0">
-          <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={isSubmitting}>
-            {isSubmitting ? "Отправляем..." : "Отправить заявку"}
-          </Button>
-          <Button asChild variant="secondary" size="lg" className="w-full sm:w-auto">
-            <a
-              href={`https://wa.me/${salon.contact.whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => trackEvent("click_whatsapp", { placement: "booking_form" })}
-            >
-              Написать в WhatsApp
-            </a>
-          </Button>
+            {(fieldErrors.date || fieldErrors.time) && (
+              <p className="mt-2 text-sm text-destructive">{fieldErrors.date ?? fieldErrors.time}</p>
+            )}
+          </div>
+          <div className="grid content-start gap-2.5">
+            <div className="grid gap-2.5 md:grid-cols-2">
+              <Field label="Филиал" error={fieldErrors.branchId}>
+                <Select className="min-h-10 rounded-lg px-3 py-1.5 text-sm" value={form.branchId} onChange={(event) => update("branchId", event.target.value as BranchId)}>
+                  {branches.map((branch) => (
+                    <option key={branch.id} value={branch.id}>
+                      {branch.shortName} - {branch.district}
+                    </option>
+                  ))}
+                </Select>
+              </Field>
+              <Field label="Услуга" error={fieldErrors.serviceId}>
+                <Select className="min-h-10 rounded-lg px-3 py-1.5 text-sm" value={form.serviceId} onChange={(event) => update("serviceId", event.target.value)}>
+                  {services.map((service) => (
+                    <option key={service.id} value={service.id}>
+                      {service.shortName}
+                    </option>
+                  ))}
+                </Select>
+              </Field>
+              <Field label="Мастер" error={fieldErrors.masterId}>
+                <Select className="min-h-10 rounded-lg px-3 py-1.5 text-sm" value={form.masterId} onChange={(event) => update("masterId", event.target.value)}>
+                  {masterBookingOptions.map((master) => (
+                    <option key={master.id} value={master.id}>
+                      {master.name}
+                    </option>
+                  ))}
+                </Select>
+              </Field>
+              <Field label="Имя" error={fieldErrors.name}>
+                <Input className="min-h-10 rounded-lg px-3 py-1.5 text-sm" value={form.name} placeholder="Айгерим" onChange={(event) => update("name", event.target.value)} />
+              </Field>
+              <Field label="Телефон" error={fieldErrors.phone}>
+                <Input
+                  className="min-h-10 rounded-lg px-3 py-1.5 text-sm"
+                  value={form.phone}
+                  type="tel"
+                  inputMode="tel"
+                  autoComplete="tel"
+                  placeholder="+996 ..."
+                  onChange={(event) => update("phone", event.target.value)}
+                />
+              </Field>
+              <Field label="Комментарий" className="md:col-span-2">
+                <Textarea
+                  className="min-h-20 rounded-lg px-3 py-2 text-sm"
+                  value={form.comment}
+                  placeholder="Френч, снятие или дизайн"
+                  onChange={(event) => update("comment", event.target.value)}
+                />
+              </Field>
+            </div>
+            <label className="flex items-start gap-2.5 rounded-[0.9rem] border border-border bg-background p-2.5 text-sm leading-5">
+              <Checkbox checked={form.consent} onChange={(event) => update("consent", event.target.checked)} />
+              <span>Согласна на обработку данных для подтверждения записи.</span>
+            </label>
+            {fieldErrors.consentAccepted && <p className="-mt-1 text-sm text-destructive">{fieldErrors.consentAccepted}</p>}
+            {error && (
+              <p className="rounded-[0.9rem] border border-destructive/25 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                {error}
+              </p>
+            )}
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <Button type="submit" className="min-h-10 w-full px-5 py-2 sm:w-auto" disabled={isSubmitting}>
+                {isSubmitting ? "Отправляем..." : "Отправить заявку"}
+              </Button>
+              <Button asChild variant="secondary" className="min-h-10 w-full px-5 py-2 sm:w-auto">
+                <a
+                  href={`https://wa.me/${salon.contact.whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => trackEvent("click_whatsapp", { placement: "booking_form" })}
+                >
+                  Написать в WhatsApp
+                </a>
+              </Button>
+            </div>
+          </div>
         </div>
       </form>
     </Card>
@@ -373,7 +375,7 @@ function Field({
 }: Readonly<{ label: string; children: React.ReactNode; className?: string; error?: string }>) {
   return (
     <div className={className}>
-      <Label className="mb-1.5 block sm:mb-2">{label}</Label>
+      <Label className="mb-1 block text-xs font-semibold text-muted-foreground">{label}</Label>
       {children}
       {error && <p className="mt-2 text-sm text-destructive">{error}</p>}
     </div>

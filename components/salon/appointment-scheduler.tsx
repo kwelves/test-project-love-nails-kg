@@ -44,17 +44,17 @@ export function AppointmentScheduler({
   }, [date, minDate]);
 
   return (
-    <div className="rounded-[1.1rem] border border-border bg-background p-3 sm:rounded-[1.25rem] sm:p-4">
-      <div className="grid gap-3 sm:gap-4 lg:grid-cols-[1.05fr_0.95fr]">
+    <div className="rounded-[1rem] border border-border bg-background p-2.5 sm:rounded-[1.1rem] sm:p-3">
+      <div className="grid gap-2.5 sm:gap-3 lg:grid-cols-[1.08fr_0.92fr]">
         <div>
-          <div className="mb-2 flex items-center justify-between gap-3 sm:mb-3">
-            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-primary sm:text-xs">дата</p>
-            <div className="flex items-center gap-1.5 sm:gap-2">
+          <div className="mb-1.5 flex items-center justify-between gap-3 sm:mb-2">
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-primary sm:text-[11px]">дата</p>
+            <div className="flex items-center gap-1.5">
               <Button
                 type="button"
                 variant="outline"
                 size="icon"
-                className="size-8 sm:size-9"
+                className="size-8"
                 disabled={!canGoPrevious}
                 onClick={() => setVisibleMonth(previousMonth)}
                 aria-label="Предыдущий месяц"
@@ -65,7 +65,7 @@ export function AppointmentScheduler({
                 type="button"
                 variant="outline"
                 size="icon"
-                className="size-8 sm:size-9"
+                className="size-8"
                 onClick={() => setVisibleMonth(nextMonth)}
                 aria-label="Следующий месяц"
               >
@@ -73,10 +73,10 @@ export function AppointmentScheduler({
               </Button>
             </div>
           </div>
-          <p className="mb-2 text-sm font-semibold capitalize sm:mb-3 sm:text-base">{monthLabel}</p>
-          <div className="grid grid-cols-7 gap-1 text-center">
+          <p className="mb-1.5 text-sm font-semibold capitalize sm:mb-2">{monthLabel}</p>
+          <div className="grid grid-cols-7 gap-0.5 text-center sm:gap-1">
             {weekDays.map((day) => (
-              <span key={day} className="py-0.5 text-[10px] font-semibold text-muted-foreground sm:py-1 sm:text-[11px]">
+              <span key={day} className="py-0.5 text-[10px] font-semibold text-muted-foreground sm:text-[11px]">
                 {day}
               </span>
             ))}
@@ -93,7 +93,7 @@ export function AppointmentScheduler({
                   disabled={isDisabled}
                   aria-pressed={isSelected}
                   className={cn(
-                    "flex aspect-square min-h-8 items-center justify-center rounded-lg border border-transparent text-xs font-semibold transition-[background,border-color,color,transform] active:scale-[0.97] sm:min-h-9 sm:rounded-xl sm:text-sm",
+                    "flex aspect-square min-h-7 items-center justify-center rounded-lg border border-transparent text-xs font-semibold transition-[background,border-color,color,transform] active:scale-[0.97] sm:min-h-8 sm:text-sm",
                     isMuted && "text-muted-foreground/45",
                     isDisabled && "pointer-events-none text-muted-foreground/25",
                     !isSelected && !isDisabled && "hover:border-primary/20 hover:bg-muted",
@@ -108,15 +108,15 @@ export function AppointmentScheduler({
           </div>
         </div>
 
-        <div className="rounded-[1rem] border border-border bg-card p-3 sm:rounded-2xl">
-          <div className="mb-2 flex items-center justify-between gap-3 sm:mb-3">
-            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-primary sm:text-xs">время</p>
+        <div className="rounded-[0.9rem] border border-border bg-card p-2.5 sm:p-3">
+          <div className="mb-2 flex items-center justify-between gap-3">
+            <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-primary sm:text-[11px]">время</p>
             <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
               <Clock className="size-3.5" aria-hidden="true" />
               9:00-21:00
             </span>
           </div>
-          <div className="grid max-h-[188px] grid-cols-3 gap-1.5 overflow-y-auto pr-1 sm:max-h-[252px] sm:grid-cols-4 sm:gap-2 lg:grid-cols-2">
+          <div className="grid grid-cols-3 gap-1.5 sm:grid-cols-4 lg:grid-cols-2">
             {timeSlots.map((slot) => {
               const isSelected = slot.value === time;
 
@@ -126,7 +126,7 @@ export function AppointmentScheduler({
                   type="button"
                   variant={isSelected ? "default" : "outline"}
                   size="sm"
-                  className={cn("w-full", isSelected && "selected-pop ring-2 ring-primary/20 ring-offset-2 ring-offset-card")}
+                  className={cn("min-h-8 w-full px-3 py-1.5", isSelected && "selected-pop ring-2 ring-primary/20 ring-offset-2 ring-offset-card")}
                   onClick={() => onTimeChange(slot.value)}
                 >
                   {slot.label}

@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PricePill } from "@/components/shared/price-pill";
+import { scrollToAnchorHash } from "@/components/shared/anchor-scroll";
 import type { Service } from "@/lib/domain/types";
 import { cn, formatDuration } from "@/lib/utils";
 
@@ -26,7 +27,7 @@ function moveToBooking(params: Record<string, string>) {
   url.hash = "booking";
   window.history.pushState({}, "", url);
   window.dispatchEvent(new CustomEvent("booking-selection-change"));
-  document.getElementById("booking")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  scrollToAnchorHash("#booking");
 }
 
 export function ServiceCard({ service, featured = false }: { service: Service; featured?: boolean }) {

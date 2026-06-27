@@ -86,14 +86,17 @@ export function TubelightNav({
   }, [items, updateIndicator]);
 
   useEffect(() => {
-    if (!activeHref || !activeLinkRef.current) {
+    if (!activeHref || !activeLinkRef.current || !navRef.current) {
       return;
     }
 
-    activeLinkRef.current.scrollIntoView({
+    const nav = navRef.current;
+    const activeLink = activeLinkRef.current;
+    const left = activeLink.offsetLeft - (nav.clientWidth - activeLink.offsetWidth) / 2;
+
+    nav.scrollTo({
+      left: Math.max(left, 0),
       behavior: "smooth",
-      inline: "center",
-      block: "nearest",
     });
   }, [activeHref]);
 

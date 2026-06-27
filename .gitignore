@@ -8,3 +8,15 @@ dist/
 next-env.d.ts
 
 .vercel
+.venv-graphify/
+graphify-out/
+
+# Local logs and generated tooling state
+*.log
+debug.log
+skills-lock.json
+
+# Project-local installed agent skills are vendor/tooling files.
+.agents/skills/
+.codex/skills/
+.codex/hooks.json

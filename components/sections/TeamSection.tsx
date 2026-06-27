@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Container } from "@/components/layout/container";
 import { TeamCard } from "@/components/team/TeamCard";
-import { TeamDetailsPanel } from "@/components/team/TeamDetailsPanel";
+import { TeamDrawer } from "@/components/team/TeamDrawer";
 import { teamMembers, type TeamMember } from "@/components/team/teamData";
 
 const trustItems = [
@@ -33,19 +33,12 @@ export function TeamSection() {
 
   const openDetails = (member: TeamMember) => {
     setSelectedMember((current) => (current?.id === member.id ? null : member));
-    window.setTimeout(() => {
-      document.getElementById("team-details")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 60);
   };
 
-  const moveToBooking = (member: TeamMember) => {
-    const url = new URL(window.location.href);
-    url.searchParams.set("master", member.id);
-    url.hash = "booking";
-    window.history.pushState({}, "", url);
-    window.dispatchEvent(new CustomEvent("booking-selection-change"));
-    document.getElementById("booking")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+  const selectedIndex = selectedMember
+    ? teamMembers.findIndex((m) => m.id === selectedMember.id)
+    : -1;
+  const drawerSide = selectedIndex >= 0 && selectedIndex % 4 < 2 ? "right" : "left";
 
   return (
     <>
@@ -64,7 +57,7 @@ export function TeamSection() {
         </Container>
       </section>
 
-      <section id="team" className="scroll-mt-18 bg-[#fffdf9] py-8 sm:scroll-mt-20 sm:py-14">
+      <section id="team" className="scroll-mt-18 bg-[#fffdf9] py-8 sm:scroll-mt-20 sm:py-10">
         <Container>
           <motion.div
             initial="hidden"
@@ -93,21 +86,25 @@ export function TeamSection() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.18 }}
-            className="-mx-4 flex snap-x gap-4 overflow-x-auto px-4 pb-3 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4"
+            className="-mx-4 grid grid-cols-1 gap-4 px-4 pb-3 sm:mx-0 sm:grid-cols-2 sm:px-0 sm:pb-0 lg:grid-cols-4"
           >
             {teamMembers.map((member) => (
               <TeamCard
                 key={member.id}
                 member={member}
                 isActive={selectedMember?.id === member.id}
-                onOpen={openDetails}
-                onBook={moveToBooking}
+                isAnyActive={!!selectedMember}
+                onSelect={openDetails}
               />
             ))}
           </motion.div>
-
-          {selectedMember && <TeamDetailsPanel member={selectedMember} onClose={() => setSelectedMember(null)} />}
         </Container>
+        <TeamDrawer
+          member={selectedMember}
+          isOpen={!!selectedMember}
+          side={drawerSide}
+          onClose={() => setSelectedMember(null)}
+        />
       </section>
     </>
   );

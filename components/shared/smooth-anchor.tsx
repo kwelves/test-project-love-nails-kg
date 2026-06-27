@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { forwardRef, type AnchorHTMLAttributes } from "react";
+import { scrollToAnchorHash } from "@/components/shared/anchor-scroll";
 
 interface SmoothAnchorProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
@@ -20,14 +21,12 @@ export const SmoothAnchor = forwardRef<HTMLAnchorElement, SmoothAnchorProps>(
             return;
           }
 
-          const target = document.getElementById(href.slice(1));
-          if (!target) {
+          if (!scrollToAnchorHash(href)) {
             return;
           }
 
           event.preventDefault();
           window.history.pushState(null, "", href);
-          target.scrollIntoView({ behavior: "smooth", block: "start" });
         }}
       />
     );

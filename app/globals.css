@@ -57,7 +57,13 @@
 }
 
 html {
-  scroll-padding-top: 4.75rem;
+  scroll-padding-top: 7.25rem;
+}
+
+@media (min-width: 768px) {
+  html {
+    scroll-padding-top: 4.75rem;
+  }
 }
 
 body {
@@ -321,6 +327,8 @@ body {
 .tubelight-nav {
   position: relative;
   isolation: isolate;
+  overscroll-behavior-x: contain;
+  scroll-behavior: smooth;
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.64),
     0 14px 42px rgb(35 33 36 / 0.07);

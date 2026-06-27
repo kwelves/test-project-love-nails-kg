@@ -1,0 +1,12 @@
+node_modules/
+.next/
+.vercel/
+.venv-graphify/
+graphify-out/
+.agents/
+.codex/
+public/
+*.log
+*.tsbuildinfo
+package-lock.json
+skills-lock.json
