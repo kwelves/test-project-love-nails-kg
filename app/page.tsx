@@ -81,7 +81,14 @@ export default function Home() {
       <Header />
       <main>
         <section className="relative overflow-hidden bg-[#fffdf9]">
-          <Container>
+          <div
+            className="absolute inset-0 z-0 pointer-events-none"
+            style={{
+              backgroundImage: `radial-gradient(125% 125% at 50% 90%, #ffffff 40%, #f4e6dd 100%)`,
+              backgroundSize: "100% 100%",
+            }}
+          />
+          <Container className="relative z-10">
             <div className="grid min-h-[calc(100svh-3.25rem)] items-center gap-9 py-10 sm:min-h-[calc(100svh-3.5rem)] sm:gap-12 sm:py-14 lg:grid-cols-[minmax(0,1fr)_minmax(27rem,0.94fr)] lg:gap-12 lg:py-18 xl:gap-16">
               <div className="max-w-3xl">
                 <AnimatedReveal>
